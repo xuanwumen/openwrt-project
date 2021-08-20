@@ -21,7 +21,7 @@ env:
   REPO_BRANCH: openwrt-18.06-k5.4
   CONFIG_FILE: config/x86/x86_64-openwrt-target.config
   DIY_SH: scripts/project-openwrt.sh
-  WEBROOT: /data/dnmp/www/openwrt.cc
+  WEBROOT: /www/wwwroot/opup.link
   RUNNER: project-x86_64
 
 jobs:
@@ -93,8 +93,6 @@ jobs:
           cd $OPENWRTROOT
           chmod +x ../scripts/*.sh
           ../$DIY_SH
-          ../scripts/preset-clash-core.sh amd64
-          ../scripts/preset-terminal-tools.sh
 
       - name: Download All Packages
         id: download
