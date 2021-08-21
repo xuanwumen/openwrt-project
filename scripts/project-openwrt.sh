@@ -54,6 +54,11 @@ rm -rf luci-app-aria2
 svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-aria2
 popd
 
+# fix dockerd
+pushd feeds/packages/utils
+rm -rf dockerd
+svn co https://github.com/immortalwrt/packages/trunk/utils/dockerd
+
 # Rename hostname to OpenWrt
 pushd package/base-files/files/bin
 sed -i 's/ImmortalWrt/OpenWrt/g' config_generate
