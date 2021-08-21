@@ -29,6 +29,6 @@ jobs:
           echo "${{secrets.HOSTHATCH_PRIVATEKEY}}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh -q -t -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $HOST \
-          bash -c "'cd /data/dnmp/www/openwrt.cc/archive && \
+          bash -c "'cd /www/wwwroot/opup.link/archive && \
           find . -type d -name releases -mtime +1 | xargs rm -rf && \
           find . -type d -path "*snapshots/packages" -mtime +1 | xargs rm -rf'"
