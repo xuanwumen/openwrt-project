@@ -12,6 +12,8 @@ sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generat
 pushd package/emortal/default-settings/files
 sed -i '/http/d' zzz-default-settings
 sed -i '/openwrt_luci/d' zzz-default-settings
+sed -i "/CYXluq4wUazHjmCDBCqXF/d" zzz-default-settings
+sed -i "/banner/d" zzz-default-settings
 popd
 
 # Clone community packages to package/community
