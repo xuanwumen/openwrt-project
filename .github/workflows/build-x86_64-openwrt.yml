@@ -18,7 +18,7 @@ on:
 
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
-  REPO_BRANCH: openwrt-18.06-k5.4
+  REPO_BRANCH: openwrt-18.06
   CONFIG_FILE: config/x86/x86_64-openwrt-target.config
   DIY_SH: scripts/project-openwrt.sh
   WEBROOT: /www/wwwroot/opup.link
@@ -100,7 +100,7 @@ jobs:
           cd $OPENWRTROOT
           wget -q https://raw.githubusercontent.com/openwrt/openwrt/master/scripts/download.pl -O scripts/download.pl
           rm -rf dl
-          cp -r /data/cache/dl .
+          cp -r /data/cache/4.19/dl .
           echo "CONFIG_ALL=y" >> .config
           make defconfig
           make download -j16 IGNORE_ERRORS=1
