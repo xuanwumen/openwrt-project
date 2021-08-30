@@ -54,8 +54,6 @@ git clone --depth=1 https://github.com/XXKDB/luci-theme-argon_armygreen
 git clone --depth=1 https://github.com/kiddin9/luci-theme-edge
 popd
 
-
-
 # Fix mt76 wireless driver
 pushd package/kernel/mt76
 sed -i '/mt7662u_rom_patch.bin/a\\techo mt76-usb disable_usb_sg=1 > $\(1\)\/etc\/modules.d\/mt76-usb' Makefile
