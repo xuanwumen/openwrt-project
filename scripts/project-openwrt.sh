@@ -51,7 +51,10 @@ git clone --depth=1 https://github.com/destan19/OpenAppFilter -b oaf-3.0.1
 
 # Add luci-theme-argon_armygreen
 git clone --depth=1 https://github.com/XXKDB/luci-theme-argon_armygreen
+git clone --depth=1 https://github.com/kiddin9/luci-theme-edge
 popd
+
+
 
 # Fix mt76 wireless driver
 pushd package/kernel/mt76
