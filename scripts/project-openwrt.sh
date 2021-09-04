@@ -66,10 +66,10 @@ svn co https://github.com/coolsnowwolf/luci/trunk/applications/luci-app-aria2
 popd
 
 # fix dockerd
-pushd feeds/packages/utils
-rm -rf dockerd
-svn co https://github.com/immortalwrt/packages/trunk/utils/dockerd
-popd
+# pushd feeds/packages/utils
+# rm -rf dockerd
+# svn co https://github.com/immortalwrt/packages/trunk/utils/dockerd
+# popd
 
 # Rename hostname to OpenWrt
 pushd package/base-files/files/bin
