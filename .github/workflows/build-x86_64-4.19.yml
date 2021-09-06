@@ -99,7 +99,7 @@ jobs:
         run: |
           cd $OPENWRTROOT
           rm -rf dl
-          cp -r /data/cache/4.19/dl .
+          cp -r ~/cache/immortal/4.19/dl .
           echo "CONFIG_ALL=y" >> .config
           make defconfig
           make download -j16 IGNORE_ERRORS=1
