@@ -64,5 +64,5 @@ jobs:
           find dl -size -1024c -exec rm -f {} \;
           mkdir -p ~/cache/immortal/4.19
           rm -rf ~/cache/immortal/4.19/dl
-          cp -r dl ~/cache/immortal/4.19/dl
+          cp -r dl ~/cache/immortal/4.19
 
