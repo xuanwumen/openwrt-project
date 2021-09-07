@@ -126,22 +126,6 @@ jobs:
           make toolchain/compile -j$(nproc) BUILD_LOG=1 || make toolchain/compile -j1 V=s
           echo "::set-output name=TOOLCHAIN_STATUS::success"
 
-      - name: Collect Logs
-        id: toolchain-logs-collect
-        if: always()
-        run: |
-          cd $OPENWRTROOT
-          mkdir -p output/logs
-          mv logs output/logs/${{ github.job }}
-
-      - name: Upload Logs
-        id: toolchain-logs-upload
-        if: always()
-        uses: actions/upload-artifact@main
-        with:
-          name: Logs-${{ github.job }}
-          path: openwrt/output/logs/${{ github.job }}
-
       - name: Umount Disk Image
         id: prepare
         if: always()
@@ -227,21 +211,6 @@ jobs:
           mkdir -p $OPENWRTROOT/output/bin/targets/$TARGET
           cp -r $FIRMWARE $OPENWRTROOT/output/bin/targets/$TARGET
           echo "::set-output name=GENERATE_STATUS::success"
-
-      - name: Collect Logs
-        id: firmware-logs-collect
-        if: always()
-        run: |
-          cd $OPENWRTROOT
-          mv logs output/logs/${{ github.job }}
-
-      - name: Upload Logs
-        id: firmware-logs-upload
-        if: always()
-        uses: actions/upload-artifact@main
-        with:
-          name: Logs-${{ github.job }}
-          path: openwrt/output/logs/${{ github.job }}
 
       - name: Umount Disk Image
         if: always()
