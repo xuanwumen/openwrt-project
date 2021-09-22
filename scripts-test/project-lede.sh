@@ -77,6 +77,9 @@ rm -rf ../lean/luci-theme-argon
 # svn co https://github.com/zcy85611/Openwrt-Package/trunk/udp2raw
 # svn co https://github.com/zcy85611/Openwrt-Package/trunk/udpspeeder-tunnel
 
+# Add luci-app-ttnode
+git clone --depth=1 https://github.com/jerrykuku/luci-app-ttnode
+
 # Add OpenAppFilter
 git clone --depth=1 https://github.com/destan19/OpenAppFilter
 
