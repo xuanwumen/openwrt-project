@@ -48,6 +48,9 @@ git clone --depth=1 https://github.com/project-lede/luci-app-godproxy
 # Add luci-app-tcpdump
 git clone --depth=1 https://github.com/KFERMercer/luci-app-tcpdump
 
+#Add luci-app-ttnode
+git clone --depth=1 https://github.com/jerrykuku/luci-app-ttnode
+
 # Add luci-app-oaf
 git clone --depth=1 https://github.com/destan19/OpenAppFilter -b oaf-3.0.1
 
