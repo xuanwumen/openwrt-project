@@ -11,8 +11,8 @@ name: Build x86_64 OpenWrt
 on:
   repository_dispatch:
   workflow_dispatch:
-  schedule:
-    - cron: 0 9 * * 2,4,6
+#  schedule:
+#    - cron: 0 9 * * 2,4,6
 #  watch:
 #    types: started
 
