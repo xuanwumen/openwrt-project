@@ -1,8 +1,8 @@
 ![xuanwumen's GitHub stats](https://github-readme-stats.vercel.app/api?username=xuanwumen&show_icons=true&theme=radical)
 
 
-|  插件中英对照表  |   [🔗](https://www.opup.link/?dir=Application-translation)  |
-|:----------------:|  :-------------------------------------------------------:  |
+|  插件中英对照表      |   [🔗](https://www.opup.link/?dir=Application-translation)|
+|:----------------:    | :-------------------------------------------------------: |
 ## 设备/平台支持情况(下载使用前必看)
 
 |   支持设备 / 平台    |                         下载链接                          |         Platform         |  Target  | Subtarget |
