@@ -36,8 +36,8 @@ pushd package/community
 git clone --depth=1 https://github.com/garypang13/luci-app-dnsfilter
 
 # Add luci-app-bypass
-git clone --depth=1 https://github.com/garypang13/luci-app-bypass
-git clone --depth=1 https://github.com/garypang13/smartdns-le
+# git clone --depth=1 https://github.com/garypang13/luci-app-bypass
+# git clone --depth=1 https://github.com/garypang13/smartdns-le
 
 # Add luci-app-godproxy
 git clone --depth=1 https://github.com/project-lede/luci-app-godproxy
