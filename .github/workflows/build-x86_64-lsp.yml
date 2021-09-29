@@ -19,8 +19,8 @@ on:
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
-  CONFIG_FILE: config/x86/x86_64-openwrt-target.config
-  DIY_SH: scripts/project-lede.sh
+  CONFIG_FILE: config-test/x86/x86_64-openwrt-target.config
+  DIY_SH: scripts-test/project-lede.sh
   WEBROOT: /www/wwwroot/opup.link
   RUNNER: project-x86_64
 
@@ -82,8 +82,8 @@ jobs:
           mkdir customfeeds
           git clone --depth=1 https://github.com/coolsnowwolf/packages customfeeds/packages
           git clone --depth=1 https://github.com/coolsnowwolf/luci customfeeds/luci
-          chmod +x ../scripts/*.sh
-          ../scripts/hook-feeds.sh
+          chmod +x ../scripts-test/*.sh
+          ../scripts-test/hook-feeds.sh
 
       - name: Install Feeds
         id: install
@@ -115,7 +115,7 @@ jobs:
         run: |
           rm -f $OPENWRTROOT/.config*
           cp $CONFIG_FILE $OPENWRTROOT/.config
-          cat config/lsp.config >> $OPENWRTROOT/.config
+          cat config-test/lsp.config >> $OPENWRTROOT/.config
           cd $OPENWRTROOT
           make defconfig
           echo -e "$(nproc) threads compile"
@@ -196,17 +196,17 @@ jobs:
         if: steps.compile.outputs.COMPILE_STATUS == 'success'
         id: generate
         run: |
-          cd data/opkg
+          cd data-test/opkg
           sed -i "s/subtarget/$SUBTARGET/g" distfeeds.conf
           sed -i "s/target\//$TARGET\//g" distfeeds.conf
           sed -i "s/platform/$PLATFORM/g" distfeeds.conf
           cd $OPENWRTROOT
           mkdir -p files/etc/opkg
-          cp ../data/opkg/distfeeds.conf files/etc/opkg/distfeeds.conf
-          mkdir -p files/www/releases
-          cp -r bin/targets files/www/releases
+          cp ../data-test/opkg/distfeeds.conf files/etc/opkg/distfeeds.conf
+          mkdir -p files/www/test
+          cp -r bin/targets files/www/test
           mkdir -p files/etc/uci-defaults/
-          cp ../scripts/init-lsp-settings.sh files/etc/uci-defaults/99-init-settings
+          cp ../scripts-test/init-lsp-settings.sh files/etc/uci-defaults/99-init-settings
           make package/install || make package/install -j1 V=s
           make target/install || make target/install -j1 V=s
           make checksum
