@@ -81,6 +81,11 @@ P3TERX 大佬的 Actions-OpenWrt 项目：
 
 * [https://github.com/P3TERX/Actions-OpenWrt](https://github.com/P3TERX/Actions-OpenWrt)
 
+---
+SuLingGG 
+
+* [https://github.com/SuLingGG](https://github.com/SuLingGG)
+
 除这些项目之外，也特别感谢所有为 OpenWrt 项目及社区作出贡献的朋友们～
 
 ---
