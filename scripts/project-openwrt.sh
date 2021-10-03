@@ -17,16 +17,16 @@ sed -i "/banner/d" zzz-default-settings
 popd
 
 # change index
-pushd package/emortal/autocore/files/x86
+# pushd package/emortal/autocore/files/x86
 # sed -i '/Source Code/,+2d' index.htm
-sed -i '727,729d' index.htm
-popd
+# sed -i '727,729d' index.htm
+# popd
 
 # change index
-pushd feeds/luci/modules/luci-mod-admin-full/luasrc/view/admin_status
-sed -i '713,715d' index.htm
+# pushd feeds/luci/modules/luci-mod-admin-full/luasrc/view/admin_status
+# sed -i '713,715d' index.htm
 # sed -i '/Source Code/,+2d' index.htm
-popd
+# popd
 
 # Clone community packages to package/community
 mkdir package/community
