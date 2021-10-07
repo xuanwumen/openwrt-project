@@ -10,9 +10,9 @@ sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generat
 
 # Mod zzz-default-settings
 pushd package/lean/default-settings/files
-sed -i '/http/d' zzz-default-settings
+sed -i '/downloads.openwrt.org/d' zzz-default-settings
 sed -i '/openwrt_luci/d' zzz-default-settings
-sed -i "/CYXluq4wUazHjmCDBCqXF/d" zzz-default-settings
+sed -i "/V4UetPzk$CYXluq4wUazHjmCDBCqXF/d" zzz-default-settings
 popd
 
 # Add luci-app-ssr-plus
@@ -76,9 +76,9 @@ git clone --depth=1 https://github.com/Leo-Jo-My/luci-theme-opentomcat
 # git clone --depth=1 https://github.com/tindy2013/openwrt-subconverter
 
 # Add luci-udptools
-# svn co https://github.com/zcy85611/Openwrt-Package/trunk/luci-udptools
-# svn co https://github.com/zcy85611/Openwrt-Package/trunk/udp2raw
-# svn co https://github.com/zcy85611/Openwrt-Package/trunk/udpspeeder-tunnel
+svn co https://github.com/zcy85611/Openwrt-Package/trunk/luci-udptools
+svn co https://github.com/zcy85611/Openwrt-Package/trunk/udp2raw
+svn co https://github.com/zcy85611/Openwrt-Package/trunk/udpspeeder-tunnel
 
 # Add luci-app-ttnode
 git clone --depth=1 https://github.com/jerrykuku/luci-app-ttnode
@@ -97,7 +97,7 @@ svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/pa
 svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/package/kernel/rtl88x2bu
 
 # Add apk (Apk Packages Manager)
-svn co https://github.com/openwrt/packages/trunk/utils/apk
+# svn co https://github.com/openwrt/packages/trunk/utils/apk
 popd
 
 # fix dockerd
