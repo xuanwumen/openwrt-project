@@ -11,8 +11,8 @@ sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generat
 # Mod zzz-default-settings
 pushd package/emortal/default-settings/files
 sed -i '/immortalwrt_luci/d' zzz-default-settings
-sed -i "/V4UetPzk$CYXluq4wUazHjmCDBCqXF/d" zzz-default-settings
-sed -i "/banner/d" zzz-default-settings
+sed -i '/V4UetPzk$CYXluq4wUazHjmCDBCqXF/d' zzz-default-settings
+sed -i '/banner/d' zzz-default-settings
 popd
 
 # change index
@@ -87,7 +87,7 @@ sed -i '/$(SDK_BUILD_DIR)\/$(STAGING_SUBDIR_HOST)\/usr\/bin/d;/LICENSE/d' target
 sed -i 's/luci-app-ddns//g;s/luci-app-upnp//g;s/luci-app-adbyby-plus//g;s/luci-app-vsftpd//g;s/luci-app-ssr-plus//g;s/luci-app-unblockmusic//g;s/luci-app-vlmcsd//g;s/luci-app-wol//g;s/luci-app-nlbwmon//g;s/luci-app-accesscontrol//g' include/target.mk
 
 # version.mk
-sed -i "s/ImmortalWrt/OpenWrt/g" include/version.mk
+sed -i 's/ImmortalWrt/OpenWrt/g' include/version.mk
 
 # Change default shell to zsh
 # sed -i 's/\/bin\/ash/\/usr\/bin\/zsh/g' package/base-files/files/etc/passwd
