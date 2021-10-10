@@ -98,8 +98,17 @@ svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/pa
 
 # Add apk (Apk Packages Manager)
 # svn co https://github.com/openwrt/packages/trunk/utils/apk
+
+# Add luci-app-ddnsto luci-app-linkease
+svn co https://github.com/linkease/nas-packages-luci/trunk/luci/luci-app-ddnsto
+svn co https://github.com/linkease/nas-packages-luci/trunk/luci/luci-app-linkease
 popd
 
+# Add package ddnsto linkease
+pushd package/network/services
+svn co https://github.com/linkease/nas-packages/trunk/network/services/ddnsto
+svn co https://github.com/linkease/nas-packages/trunk/network/services/linkease
+popd
 # fix dockerd
 # pushd feeds/packages/utils
 # rm -rf dockerd
