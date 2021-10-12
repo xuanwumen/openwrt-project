@@ -63,6 +63,17 @@ pushd package/kernel/mt76
 sed -i '/mt7662u_rom_patch.bin/a\\techo mt76-usb disable_usb_sg=1 > $\(1\)\/etc\/modules.d\/mt76-usb' Makefile
 popd
 
+# Add luci-app-ddnsto luci-app-linkease
+svn co https://github.com/linkease/nas-packages-luci/trunk/luci/luci-app-ddnsto
+svn co https://github.com/linkease/nas-packages-luci/trunk/luci/luci-app-linkease
+popd
+
+# Add package ddnsto linkease
+pushd package/network/services
+svn co https://github.com/linkease/nas-packages/trunk/network/services/ddnsto
+svn co https://github.com/linkease/nas-packages/trunk/network/services/linkease
+popd
+
 # Fix luci-app-aria2
 # pushd feeds/luci/applications
 # rm -rf luci-app-aria2
