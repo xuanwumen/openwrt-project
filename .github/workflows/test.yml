@@ -217,7 +217,6 @@ jobs:
 
 
   Upload:
-    if: needs.Extra-Packages.outputs.COMPILE_STATUS == 'success'
     needs: [Build]
     runs-on: ubuntu-18.04
 
