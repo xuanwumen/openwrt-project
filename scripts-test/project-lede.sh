@@ -71,7 +71,7 @@ rm -rf ../lean/luci-theme-argon
 git clone --depth=1 https://github.com/rosywrt/luci-theme-rosy
 git clone --depth=1 https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom
 git clone --depth=1 https://github.com/Leo-Jo-My/luci-theme-opentomcat
-
+git clone --depth=1 https://github.com/openwrt-develop/luci-theme-atmaterial
 # Add subconverter
 # git clone --depth=1 https://github.com/tindy2013/openwrt-subconverter
 
