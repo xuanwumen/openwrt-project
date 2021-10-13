@@ -200,7 +200,7 @@ jobs:
           echo "::set-output name=COMPILE_STATUS::success"
 
       - name: Compress Bin Folder
-        if: steps.compile.outputs.COMPILE_STATUS == 'success'
+        if: steps.extra.outputs.COMPILE_STATUS == 'success'
         id: compress
         run: |
           cd $OPENWRTROOT/output
