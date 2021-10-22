@@ -18,6 +18,11 @@ cp -r temp/packages/net/adguardhome packages/net/adguardhome
 # cp -r temp/packages/lang/node-yarn packages/lang/node-yarn
 # cp -r temp/packages/devel/packr packages/devel/packr
 
+# Add luci-app-syncthing
+cp -r temp/luci/applications/luci-app-syncthing luci/applications/luci-app-syncthing
+# Add  themes
+cp -r temp/luci/themes/luci-theme-argonv3 luci/themes/luci-theme-argonv3
+cp -r temp/luci/applications/luci-app-argon-config luci/applications/luci-app-argon-config
 # Add luci-app-gowebdav
 cp -r temp/luci/applications/luci-app-gowebdav luci/applications/luci-app-gowebdav
 cp -r temp/packages/net/gowebdav packages/net/gowebdav
