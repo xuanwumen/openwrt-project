@@ -20,9 +20,18 @@ cp -r temp/packages/net/adguardhome packages/net/adguardhome
 
 # Add luci-app-syncthing
 cp -r temp/luci/applications/luci-app-syncthing luci/applications/luci-app-syncthing
+
 # Add  themes
 cp -r temp/luci/themes/luci-theme-argonv3 luci/themes/luci-theme-argonv3
 cp -r temp/luci/applications/luci-app-argon-config luci/applications/luci-app-argon-config
+cp -r temp/luci/themes/luci-theme-atmaterial luci/themes/luci-theme-atmaterial
+cp -r temp/luci/themes/luci-theme-Butterfly luci/themes/luci-theme-Butterfly
+cp -r temp/luci/themes/luci-theme-darkmatter luci/themes/luci-theme-darkmatter
+cp -r temp/luci/themes/luci-theme-infinityfreedom luci/themes/luci-theme-infinityfreedom
+cp -r temp/luci/themes/luci-theme-opentomato luci/themes/luci-theme-opentomato
+cp -r temp/luci/themes/luci-theme-opentomcat luci/themes/luci-theme-opentomcat
+cp -r temp/luci/themes/luci-theme-rosy luci/themes/luci-theme-rosy
+
 # Add luci-app-gowebdav
 cp -r temp/luci/applications/luci-app-gowebdav luci/applications/luci-app-gowebdav
 cp -r temp/packages/net/gowebdav packages/net/gowebdav
