@@ -61,6 +61,9 @@ git clone --depth=1 https://github.com/rufengsuixing/luci-app-onliner
 # mkdir parted
 # cp luci-app-diskman/Parted.Makefile parted/Makefile
 
+# Add luci-app-smartinfo
+svn co https://github.com/KFERMercer/OpenWrt/trunk/package/kferm/luci-app-smartinfo
+
 rm -rf ../lean/luci-app-docker
 git clone --depth=1 https://github.com/lisaac/luci-app-dockerman
 git clone --depth=1 https://github.com/lisaac/luci-lib-docker
