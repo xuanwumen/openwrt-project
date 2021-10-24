@@ -64,6 +64,10 @@ git clone --depth=1 https://github.com/rufengsuixing/luci-app-onliner
 # Add luci-app-smartinfo
 svn co https://github.com/KFERMercer/OpenWrt/trunk/package/kferm/luci-app-smartinfo
 
+# Add luci-app-koolproxyR
+svn co https://github.com/MCydia/openwrt-package/branches/openwrt-18.06/luci-app-koolproxyR
+
+# Add luci-app-dockerman
 rm -rf ../lean/luci-app-docker
 git clone --depth=1 https://github.com/lisaac/luci-app-dockerman
 git clone --depth=1 https://github.com/lisaac/luci-lib-docker
