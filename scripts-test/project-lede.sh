@@ -29,6 +29,7 @@ git clone --depth=1 https://github.com/Lienol/openwrt-package
 rm -rf ../lean/luci-app-kodexplorer
 rm -rf openwrt-package/luci-app-https-dns-proxy
 rm -rf openwrt-package/luci-app-syncthing
+rm -rf openwrt-package/luci-app-ipsec-server
 # Add luci-app-passwall
 git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall
 
