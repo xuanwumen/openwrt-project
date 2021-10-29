@@ -6,7 +6,7 @@
 # Blog: https://p3terx.com
 #=================================================
 
-name: Cache OpenWrt Packages
+name: Cache OpenWrt Packages master
 
 on:
   repository_dispatch:
