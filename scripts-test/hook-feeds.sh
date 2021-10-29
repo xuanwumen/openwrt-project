@@ -21,6 +21,9 @@ cp -r temp/packages/net/adguardhome packages/net/adguardhome
 # Add luci-app-syncthing
 cp -r temp/luci/applications/luci-app-syncthing luci/applications/luci-app-syncthing
 
+# Add luci-app-ipsec-vpnserver-manyusers
+cp -r temp/luci/applications/luci-app-ipsec-vpnserver-manyusers luci/applications/luci-app-ipsec-vpnserver-manyusers
+
 # Add  themes
 cp -r temp/luci/themes/luci-theme-argonv3 luci/themes/luci-theme-argonv3
 cp -r temp/luci/applications/luci-app-argon-config luci/applications/luci-app-argon-config
