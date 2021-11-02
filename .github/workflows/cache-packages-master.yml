@@ -56,7 +56,6 @@ jobs:
       - name: Download All Packages
         run: |
           cd $OPENWRTROOT
-          wget -q https://raw.githubusercontent.com/openwrt/openwrt/master/scripts/download.pl -O scripts/download.pl
           echo "CONFIG_ALL=y" >> .config
           make defconfig
           make download -j5 IGNORE_ERRORS=1
