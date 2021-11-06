@@ -259,7 +259,7 @@ jobs:
           cd $OPENWRTROOT
           rm -f .config*
           cp ../$CONFIG_FILE ./.config
-          cat ../config/packages-extra.config >> $OPENWRTROOT/.config
+          cat ../config/packages-extra-master.config >> $OPENWRTROOT/.config
           make defconfig
           make diffconfig
           make target/clean
