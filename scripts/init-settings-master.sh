@@ -6,8 +6,8 @@
 # Blog: https://mlapp.cn
 #=================================================
 
-# Set default theme to luci-theme-argon
-# uci set luci.main.mediaurlbase='/luci-static/argon'
+# Set default theme to luci-theme-bootstrap_mod
+uci set luci.main.mediaurlbase='/luci-static/bootstrap_mod'
 
 # Disable opkg signature check
 sed -i 's/option check_signature/# option check_signature/g' /etc/opkg.conf
