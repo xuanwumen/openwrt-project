@@ -22,4 +22,15 @@ sed -i "s/${orig_version}/${orig_version} By Vip@master $(date +"%Y-%m-%d")/g" /
 # Add execute permission for ipv6-helper
 chmod +x /bin/ipv6-helper
 
+uci -q batch <<-EOF
+	set system.@system[0].timezone='CST-8'
+	set system.@system[0].zonename='Asia/Shanghai'
+	delete system.ntp.server
+	add_list system.ntp.server='time1.cloud.tencent.com'
+	add_list system.ntp.server='ntp1.aliyun.com'
+	add_list system.ntp.server='ntp.ntsc.ac.cn'
+	add_list system.ntp.server='cn.ntp.org.cn'
+EOF
+uci commit system
+
 exit 0
