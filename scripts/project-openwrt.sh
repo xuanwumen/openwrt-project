@@ -53,6 +53,10 @@ git clone --depth=1 https://github.com/jerrykuku/luci-app-ttnode
 # Add luci-app-oaf
 git clone --depth=1 https://github.com/destan19/OpenAppFilter -b oaf-3.0.1
 
+# Add luci-app-ddnsto luci-app-linkease
+svn co https://github.com/linkease/nas-packages-luci/trunk/luci/luci-app-ddnsto
+svn co https://github.com/linkease/nas-packages-luci/trunk/luci/luci-app-linkease
+
 # Add luci-theme-argon_armygreen
 git clone --depth=1 https://github.com/XXKDB/luci-theme-argon_armygreen
 # git clone --depth=1 https://github.com/kiddin9/luci-theme-edge
@@ -61,11 +65,6 @@ popd
 # Fix mt76 wireless driver
 pushd package/kernel/mt76
 sed -i '/mt7662u_rom_patch.bin/a\\techo mt76-usb disable_usb_sg=1 > $\(1\)\/etc\/modules.d\/mt76-usb' Makefile
-popd
-
-# Add luci-app-ddnsto luci-app-linkease
-svn co https://github.com/linkease/nas-packages-luci/trunk/luci/luci-app-ddnsto
-svn co https://github.com/linkease/nas-packages-luci/trunk/luci/luci-app-linkease
 popd
 
 # Add package ddnsto linkease
