@@ -69,9 +69,9 @@ svn co https://github.com/KFERMercer/OpenWrt/trunk/package/kferm/luci-app-smarti
 svn co https://github.com/MCydia/openwrt-package/branches/openwrt-18.06/luci-app-koolproxyR
 
 # Add luci-app-dockerman
-rm -rf ../lean/luci-app-docker
-git clone --depth=1 https://github.com/lisaac/luci-app-dockerman
-git clone --depth=1 https://github.com/lisaac/luci-lib-docker
+# rm -rf ../lean/luci-app-docker
+# git clone --depth=1 https://github.com/lisaac/luci-app-dockerman
+# git clone --depth=1 https://github.com/lisaac/luci-lib-docker
 
 # Add themes
 #git clone --depth=1 -b 18.06 https://github.com/jerrykuku/luci-theme-argon
@@ -97,6 +97,9 @@ git clone --depth=1 https://github.com/destan19/OpenAppFilter
 
 # Add luci-app-oled (R2S Only)
 # git clone --depth=1 https://github.com/NateLol/luci-app-oled
+
+#add istore
+svn co https://github.com/linkease/istore/trunk/luci/luci-app-store
 
 # Add extra wireless drivers
 svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/package/kernel/rtl8812au-ac
