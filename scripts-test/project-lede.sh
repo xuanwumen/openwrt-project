@@ -100,7 +100,7 @@ git clone --depth=1 https://github.com/destan19/OpenAppFilter
 
 #add istore
 svn co https://github.com/linkease/istore/trunk/luci/luci-app-store
-
+svn co https://github.com/linkease/istore-ui/trunk/app-store-ui
 # Add extra wireless drivers
 svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/package/kernel/rtl8812au-ac
 svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/package/kernel/rtl8821cu
