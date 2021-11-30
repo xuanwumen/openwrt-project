@@ -6,7 +6,7 @@
 # Blog: https://p3terx.com
 #=================================================
 
-name: Build x86_64 lsp
+name: Build x86_64 nas
 
 on:
   repository_dispatch:
