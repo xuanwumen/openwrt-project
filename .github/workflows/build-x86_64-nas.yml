@@ -1,0 +1,288 @@
+#=================================================
+# https://github.com/P3TERX/Actions-OpenWrt
+# Description: Build OpenWrt using GitHub Actions
+# Lisence: MIT
+# Author: P3TERX
+# Blog: https://p3terx.com
+#=================================================
+
+name: Build x86_64 lsp
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+#  schedule:
+#    - cron: 0 4 1 * *
+#  watch:
+#    types: started
+
+env:
+  REPO_URL: https://github.com/coolsnowwolf/lede
+  REPO_BRANCH: master
+  CONFIG_FILE: config-test/x86/x86_64-openwrt-target.config
+  DIY_SH: scripts-test/project-lede.sh
+  WEBROOT: /www/wwwroot/opup.link
+  RUNNER: project-x86_64
+
+jobs:
+  Toolchain:
+    runs-on: project-x86_64
+
+    outputs:
+      TOOLCHAIN_STATUS: ${{ steps.toolchain.outputs.TOOLCHAIN_STATUS }}
+
+    steps:
+      - name: Umount Missing Loop Devices
+        id: umount
+        run: |
+          sudo umount /dev/loop*p1 || true
+          sudo losetup -D || true
+          lsblk
+
+      - name: Checkout
+        uses: actions/checkout@main
+
+      - name: Initialization Environment
+        id: init
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: |
+          sudo -E apt-get -qq update
+          sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-1804)
+          sudo -E apt-get -qq autoremove --purge
+          sudo -E apt-get -qq clean
+          sudo umount /dev/loop*p1 || true
+          sudo losetup -D || true
+          rm -rf openwrt.img
+          fallocate -l 150G openwrt.img
+          echo 'type=83' | sfdisk openwrt.img
+          export LOOP="$(sudo losetup -f -P --show openwrt.img)"
+          echo "LOOP=$LOOP" >> $GITHUB_ENV
+          echo "::set-output name=LOOP::$(echo $LOOP)"
+          sudo mkfs.ext4 ${LOOP}p1
+          mkdir -p openwrt
+          sudo mount ${LOOP}p1 openwrt
+          lsblk
+          sudo chown -R suling:suling openwrt
+          cd openwrt
+          echo "OPENWRTROOT=$PWD" >> $GITHUB_ENV
+
+      - name: Clone Source Code
+        id: clone
+        run: |
+          df -hT $PWD
+          git clone --depth 1 $REPO_URL -b $REPO_BRANCH
+          mv lede/* openwrt
+          mv lede/.git* openwrt
+
+      - name: Update Feeds
+        id: update
+        run: |
+          cd $OPENWRTROOT
+          mkdir customfeeds
+          git clone --depth=1 https://github.com/coolsnowwolf/packages customfeeds/packages
+          git clone --depth=1 https://github.com/coolsnowwolf/luci customfeeds/luci
+          chmod +x ../scripts-test/*.sh
+          ../scripts-test/hook-feeds.sh
+
+      - name: Install Feeds
+        id: install
+        run: |
+          cd $OPENWRTROOT
+          ./scripts/feeds install -a
+
+      - name: Load Custom Configuration
+        run: |
+          [ -e files ] && mv files $OPENWRTROOT/files
+          cd $OPENWRTROOT
+          ../$DIY_SH
+
+      - name: Download All Packages
+        id: download
+        run: |
+          cd $OPENWRTROOT
+          wget -q https://raw.githubusercontent.com/openwrt/openwrt/master/scripts/download.pl -O scripts/download.pl
+          rm -rf dl
+          cp -r ~/cache/lean/dl .
+          echo "CONFIG_ALL=y" >> .config
+          make defconfig
+          make download -j16 IGNORE_ERRORS=1
+          find dl -size -1024c -exec ls -l {} \;
+          find dl -size -1024c -exec rm -f {} \;
+
+      - name: Compile Tools
+        id: tools
+        run: |
+          rm -f $OPENWRTROOT/.config*
+          cp $CONFIG_FILE $OPENWRTROOT/.config
+          cat config-test/lsp.config >> $OPENWRTROOT/.config
+          cd $OPENWRTROOT
+          make defconfig
+          echo -e "$(nproc) threads compile"
+          make tools/install -j$(nproc) BUILD_LOG=1 || make tools/install -j1 V=s
+
+      - name: Compile Toolchain
+        id: toolchain
+        run: |
+          cd $OPENWRTROOT
+          echo -e "$(nproc) threads compile"
+          make toolchain/compile -j$(nproc) BUILD_LOG=1 || make toolchain/compile -j1 V=s
+          echo "::set-output name=TOOLCHAIN_STATUS::success"
+
+      - name: Umount Disk Image
+        id: prepare
+        if: always()
+        run: |
+          sync
+          sudo umount ${LOOP}p1 || true
+          sudo losetup -d $LOOP || true
+          lsblk
+
+  Firmware:
+    if: needs.Toolchain.outputs.TOOLCHAIN_STATUS == 'success'
+    needs: [Toolchain]
+    runs-on: project-x86_64
+
+    outputs:
+      PLATFORM: ${{ steps.compile.outputs.PLATFORM }}
+      TARGET: ${{ steps.compile.outputs.TARGET }}
+      SUBTARGET: ${{ steps.compile.outputs.SUBTARGET }}
+      GENERATE_STATUS: ${{ steps.generate.outputs.GENERATE_STATUS }}
+
+    steps:
+      - name: Initialization Environment
+        id: init
+        run: |
+          export LOOP="$(sudo losetup -f -P --show openwrt.img)"
+          echo "LOOP=$LOOP" >> $GITHUB_ENV
+          echo "::set-output name=LOOP::$(echo $LOOP)"
+          mkdir -p openwrt
+          sudo mount ${LOOP}p1 openwrt
+          lsblk
+          sudo chown -R suling:suling openwrt
+          cd openwrt
+          echo "OPENWRTROOT=$PWD" >> $GITHUB_ENV
+
+      - name: Compile Firmware Packages
+        id: compile
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        timeout-minutes: 330
+        run: |
+          cd $OPENWRTROOT
+          echo -e "$(nproc) threads compile"
+          echo 'CONFIG_MMC_SDHCI_ACPI=y' >> target/linux/x86/64/config-5.4
+          make target/compile -j$(nproc) 'IGNORE_ERRORS=n m' BUILD_LOG=1 || make target/compile -j1 V=s IGNORE_ERRORS=1
+          make diffconfig
+          make package/compile -j$(nproc) 'IGNORE_ERRORS=n m' BUILD_LOG=1 || make package/compile -j1 V=s
+          make package/index
+          cd $OPENWRTROOT/bin/packages/*
+          PLATFORM=$(basename `pwd`)
+          echo "PLATFORM=$PLATFORM" >> $GITHUB_ENV
+          echo "::set-output name=PLATFORM::$(echo $PLATFORM)"
+          cd $OPENWRTROOT/bin/targets/*
+          TARGET=$(basename `pwd`)
+          echo "TARGET=$TARGET" >> $GITHUB_ENV
+          echo "::set-output name=TARGET::$(echo $TARGET)"
+          cd *
+          SUBTARGET=$(basename `pwd`)
+          echo "SUBTARGET=$SUBTARGET" >> $GITHUB_ENV
+          echo "::set-output name=SUBTARGET::$(echo $SUBTARGET)"
+          echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+          echo "::set-output name=FIRMWARE::$(echo $PWD)"
+          echo "::set-output name=COMPILE_STATUS::success"
+
+      - name: Generate Firmware
+        if: steps.compile.outputs.COMPILE_STATUS == 'success'
+        id: generate
+        run: |
+          cd data-test/opkg
+          sed -i "s/subtarget/$SUBTARGET/g" distfeeds.conf
+          sed -i "s/target\//$TARGET\//g" distfeeds.conf
+          sed -i "s/platform/$PLATFORM/g" distfeeds.conf
+          cd $OPENWRTROOT
+          mkdir -p files/etc/opkg
+          cp ../data-test/opkg/distfeeds.conf files/etc/opkg/distfeeds.conf
+          mkdir -p files/www/test
+          cp -r bin/targets files/www/test
+          mkdir -p files/etc/uci-defaults/
+          cp ../scripts-test/init-lsp-settings.sh files/etc/uci-defaults/99-init-settings
+          make package/install || make package/install -j1 V=s
+          make target/install || make target/install -j1 V=s
+          make checksum
+          rm -rf $OPENWRTROOT/bin/targets/$TARGET/$SUBTARGET/packages
+          mkdir -p $OPENWRTROOT/output/bin/targets/$TARGET
+          cp -r $FIRMWARE $OPENWRTROOT/output/bin/targets/$TARGET
+          echo "::set-output name=GENERATE_STATUS::success"
+
+      - name: Compress Bin Folder
+        if: steps.generate.outputs.GENERATE_STATUS == 'success'
+        id: compress
+        run: |
+          cd $OPENWRTROOT/output
+          zip -q -s 500m -r bin-archive.zip bin
+          rm -rf bin
+
+      - name: Upload Bin Archive
+        id: upload
+        uses: actions/upload-artifact@main
+        with:
+          name: Bin-Archive
+          path: openwrt/output
+
+      - name: Umount Disk Image
+        if: always()
+        id: prepare
+        run: |
+          sync
+          sudo umount ${LOOP}p1 || true
+          sudo losetup -d $LOOP || true
+          lsblk
+
+  Upload:
+    if: needs.Firmware.outputs.GENERATE_STATUS == 'success'
+    needs: [Firmware]
+    runs-on: ubuntu-18.04
+
+    steps:
+      - name: Restore Variables
+        id: restore
+        run: |
+          echo "PLATFORM=$(echo '${{needs.Firmware.outputs.PLATFORM}}')" >> $GITHUB_ENV
+          echo "TARGET=$(echo '${{needs.Firmware.outputs.TARGET}}')" >> $GITHUB_ENV
+          echo "SUBTARGET=$(echo '${{needs.Firmware.outputs.SUBTARGET}}')" >> $GITHUB_ENV
+
+      - name: Download Bin Archive
+        id: download
+        uses: actions/download-artifact@v2
+        with:
+          name: Bin-Archive
+          path: openwrt
+
+      - name: Decompress Bin Folder
+        id: decompress
+        run: |
+          sudo ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+          cd openwrt
+          echo "OPENWRTROOT=$PWD" >> $GITHUB_ENV
+          zip -q -s 0 bin-archive.zip --out bin.zip
+          unzip bin.zip
+          cd bin/targets/$TARGET/$SUBTARGET
+          echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+
+      - name: Deploy Files To PacificRack Node
+        id: pacificrack
+        env:
+          HOST: "${{ secrets.REMOTE_USER }}@${{ secrets.PACIFICRACK_IP }}"
+          SOURCE_TARGETS: "openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/"
+          DEST_TARGETS: "${{ env.WEBROOT }}/lsp/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/"
+          REMOTE_PRIVATEKEY: "${{secrets.PACIFICRACK_PRIVATEKEY}}"
+        if: env.REMOTE_PRIVATEKEY != null
+        run: |
+          mkdir -p ~/.ssh/
+          install -m 600 /dev/null ~/.ssh/id_rsa
+          echo "${{secrets.PACIFICRACK_PRIVATEKEY}}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh -q -t -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $HOST \
+          bash -c "'mkdir -p $WEBROOT/lsp/targets/$TARGET/$SUBTARGET'"
+          rsync -chavP --delete -e 'ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no' $SOURCE_TARGETS $HOST:$DEST_TARGETS
