@@ -115,7 +115,7 @@ jobs:
         run: |
           rm -f $OPENWRTROOT/.config*
           cp $CONFIG_FILE $OPENWRTROOT/.config
-          cat config-test/lsp.config >> $OPENWRTROOT/.config
+          cat config-test/nas.config >> $OPENWRTROOT/.config
           cd $OPENWRTROOT
           make defconfig
           echo -e "$(nproc) threads compile"
@@ -207,7 +207,7 @@ jobs:
           mkdir -p files/www/test
           cp -r bin/targets files/www/test
           mkdir -p files/etc/uci-defaults/
-          cp ../scripts-test/init-lsp-settings.sh files/etc/uci-defaults/99-init-settings
+          cp ../scripts-test/init-nas-settings.sh files/etc/uci-defaults/99-init-settings
           make package/install || make package/install -j1 V=s
           make target/install || make target/install -j1 V=s
           make checksum
