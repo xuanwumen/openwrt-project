@@ -41,6 +41,9 @@ git clone --depth=1 https://github.com/jerrykuku/luci-app-vssr
 # git clone --depth=1 https://github.com/garypang13/luci-app-bypass
 # git clone --depth=1 https://github.com/garypang13/smartdns-le
 
+# Add luci-app-eqos
+git clone --depth=1 https://github.com/swxk521/luci-app-eqos
+
 # Add mentohust & luci-app-mentohust
 git clone --depth=1 https://github.com/BoringCat/luci-app-mentohust
 git clone --depth=1 https://github.com/KyleRicardo/MentoHUST-OpenWrt-ipk
