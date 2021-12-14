@@ -16,6 +16,9 @@ sed -i 's/option check_signature/# option check_signature/g' /etc/opkg.conf
 # cd /etc/rc.d
 # rm -f S98udptools || true
 
+# Disable IPV6 ula prefix
+sed -i 's/^[^#].*option ula/#&/' /etc/config/network
+
 # Add build date to index page
 sed -i '/DISTRIB_REVISION/d' /etc/openwrt_release 
 sed -i '/DISTRIB_DESCRIPTION/d' /etc/openwrt_release 
