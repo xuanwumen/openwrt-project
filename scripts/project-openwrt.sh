@@ -10,9 +10,9 @@ sed -i 's/192.168.1.1/192.168.2.1/g' package/base-files/files/bin/config_generat
 
 # Mod zzz-default-settings
 pushd package/emortal/default-settings/files
-sed -i '/immortalwrt_luci/d' zzz-default-settings
-sed -i '/V4UetPzk$CYXluq4wUazHjmCDBCqXF/d' zzz-default-settings
-sed -i '/banner/d' zzz-default-settings
+sed -i '/immortalwrt_luci/d' 99-default-settings
+sed -i '/V4UetPzk$CYXluq4wUazHjmCDBCqXF/d' 99-default-settings
+sed -i '/banner/d' 99-default-settings
 popd
 
 # change index
