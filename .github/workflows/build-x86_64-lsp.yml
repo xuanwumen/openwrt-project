@@ -21,7 +21,7 @@ env:
   REPO_BRANCH: master
   CONFIG_FILE: config-test/x86/x86_64-openwrt-target.config
   DIY_SH: scripts-test/project-lede.sh
-  WEBROOT: /www/wwwroot/opup.link
+  WEBROOT: /www/wwwroot/opup.link/vip
   RUNNER: project-x86_64
 
 jobs:
