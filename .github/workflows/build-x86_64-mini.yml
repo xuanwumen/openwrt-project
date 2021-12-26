@@ -6,7 +6,7 @@
 # Blog: https://p3terx.com
 #=================================================
 
-name: Build x86_64 nas
+name: Build x86_64 mini
 
 on:
   repository_dispatch:
@@ -21,7 +21,7 @@ env:
   REPO_BRANCH: master
   CONFIG_FILE: config-test/x86/x86_64-openwrt-target.config
   DIY_SH: scripts-test/project-lede.sh
-  WEBROOT: /www/wwwroot/opup.link
+  WEBROOT: /www/wwwroot/opup.link/cos
   RUNNER: project-x86_64
 
 jobs:
