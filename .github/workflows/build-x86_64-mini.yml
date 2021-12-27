@@ -19,7 +19,7 @@ on:
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
-  CONFIG_FILE: config-test/x86/x86_64-openwrt-target.config
+  CONFIG_FILE: config-test/x86/64.config
   DIY_SH: scripts-test/project-lede.sh
   WEBROOT: /www/wwwroot/opup.link/cos
   RUNNER: project-x86_64
@@ -115,7 +115,8 @@ jobs:
         run: |
           rm -f $OPENWRTROOT/.config*
           cp $CONFIG_FILE $OPENWRTROOT/.config
-          cat config-test/nas.config >> $OPENWRTROOT/.config
+          cat config-test/general-packages.config >> $OPENWRTROOT/.config
+          cat config-test/extra-drivers.config >> $OPENWRTROOT/.config
           cd $OPENWRTROOT
           make defconfig
           echo -e "$(nproc) threads compile"
