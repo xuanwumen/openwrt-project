@@ -6,7 +6,7 @@
 # Blog: https://p3terx.com
 #=================================================
 
-name: Build x86_64 mini
+name: Build x86_64 lsp
 
 on:
   repository_dispatch:
@@ -275,7 +275,7 @@ jobs:
         env:
           HOST: "${{ secrets.REMOTE_USER }}@${{ secrets.PACIFICRACK_IP }}"
           SOURCE_TARGETS: "openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/"
-          DEST_TARGETS: "${{ env.WEBROOT }}/mini/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/"
+          DEST_TARGETS: "${{ env.WEBROOT }}/lsp/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/"
           REMOTE_PRIVATEKEY: "${{secrets.PACIFICRACK_PRIVATEKEY}}"
         if: env.REMOTE_PRIVATEKEY != null
         run: |
@@ -284,5 +284,5 @@ jobs:
           echo "${{secrets.PACIFICRACK_PRIVATEKEY}}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh -q -t -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $HOST \
-          bash -c "'mkdir -p $WEBROOT/mini/targets/$TARGET/$SUBTARGET'"
+          bash -c "'mkdir -p $WEBROOT/lsp/targets/$TARGET/$SUBTARGET'"
           rsync -chavP --delete -e 'ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no' $SOURCE_TARGETS $HOST:$DEST_TARGETS
