@@ -115,7 +115,7 @@ jobs:
         run: |
           rm -f $OPENWRTROOT/.config*
           cp $CONFIG_FILE $OPENWRTROOT/.config
-          cat config-test/firmware-extra.config >> $OPENWRTROOT/.config
+          cat config-test/lsp.config >> $OPENWRTROOT/.config
           cd $OPENWRTROOT
           make defconfig
           echo -e "$(nproc) threads compile"
