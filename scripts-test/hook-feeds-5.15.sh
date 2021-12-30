@@ -75,7 +75,7 @@ echo "src-link luci $luci_feed" >> feeds.conf.default
 
 # Update feeds
 
-# sed -i 's/PATCHVER:=5.4/PATCHVER:=5.10/g' target/linux/x86/Makefile
+sed -i 's/PATCHVER:=5.10/PATCHVER:=5.15/g' target/linux/x86/Makefile
 
 # sed -i 's/PATCHVER:=5.4/PATCHVER:=5.10/g' target/linux/rockchip/Makefile
 ./scripts/feeds update -a
