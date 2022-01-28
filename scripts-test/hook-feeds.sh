@@ -26,6 +26,10 @@ cp -r temp/luci/applications/luci-app-ipsec-vpnserver-manyusers luci/application
 
 # Add  themes
 cp -r temp/luci/themes/luci-theme-argonv3 luci/themes/luci-theme-argonv3
+cp -r temp/luci/themes/luci-theme-argonv3 luci/themes/luci-theme-argon
+cp -r temp/luci/themes/luci-theme-argonv3 luci/themes/luci-theme-argonv2
+cp -r temp/luci/themes/luci-theme-argonv3 luci/themes/luci-theme-argon-mod
+cp -r temp/luci/themes/luci-theme-argonv3 luci/themes/luci-theme-argon-mc
 cp -r temp/luci/applications/luci-app-argon-config luci/applications/luci-app-argon-config
 cp -r temp/luci/themes/luci-theme-atmaterial luci/themes/luci-theme-atmaterial
 cp -r temp/luci/themes/luci-theme-Butterfly luci/themes/luci-theme-Butterfly
@@ -34,6 +38,7 @@ cp -r temp/luci/themes/luci-theme-infinityfreedom luci/themes/luci-theme-infinit
 cp -r temp/luci/themes/luci-theme-opentomato luci/themes/luci-theme-opentomato
 cp -r temp/luci/themes/luci-theme-opentomcat luci/themes/luci-theme-opentomcat
 cp -r temp/luci/themes/luci-theme-rosy luci/themes/luci-theme-rosy
+cp -r temp/luci/themes/luci-theme-bootstrap-mod luci/themes/luci-theme-bootstrap-mod
 
 # Add luci-app-gowebdav
 cp -r temp/luci/applications/luci-app-gowebdav luci/applications/luci-app-gowebdav
