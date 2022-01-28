@@ -25,6 +25,7 @@ cp -r temp/luci/applications/luci-app-syncthing luci/applications/luci-app-synct
 cp -r temp/luci/applications/luci-app-ipsec-vpnserver-manyusers luci/applications/luci-app-ipsec-vpnserver-manyusers
 
 # Add  themes
+rm -rf ../package/lean/luci-theme-argon
 cp -r temp/luci/themes/luci-theme-argonv3 luci/themes/luci-theme-argonv3
 cp -r temp/luci/themes/luci-theme-argon luci/themes/luci-theme-argon
 cp -r temp/luci/themes/luci-theme-argonv2 luci/themes/luci-theme-argonv2
