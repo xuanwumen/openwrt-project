@@ -26,10 +26,10 @@ cp -r temp/luci/applications/luci-app-ipsec-vpnserver-manyusers luci/application
 
 # Add  themes
 cp -r temp/luci/themes/luci-theme-argonv3 luci/themes/luci-theme-argonv3
-cp -r temp/luci/themes/luci-theme-argonv3 luci/themes/luci-theme-argon
-cp -r temp/luci/themes/luci-theme-argonv3 luci/themes/luci-theme-argonv2
-cp -r temp/luci/themes/luci-theme-argonv3 luci/themes/luci-theme-argon-mod
-cp -r temp/luci/themes/luci-theme-argonv3 luci/themes/luci-theme-argon-mc
+cp -r temp/luci/themes/luci-theme-argon luci/themes/luci-theme-argon
+cp -r temp/luci/themes/luci-theme-argonv2 luci/themes/luci-theme-argonv2
+cp -r temp/luci/themes/luci-theme-argon-mod luci/themes/luci-theme-argon-mod
+cp -r temp/luci/themes/luci-theme-argon-mc luci/themes/luci-theme-argon-mc
 cp -r temp/luci/applications/luci-app-argon-config luci/applications/luci-app-argon-config
 cp -r temp/luci/themes/luci-theme-atmaterial luci/themes/luci-theme-atmaterial
 cp -r temp/luci/themes/luci-theme-Butterfly luci/themes/luci-theme-Butterfly
