@@ -38,8 +38,7 @@ git clone --depth=1 https://github.com/jerrykuku/lua-maxminddb.git
 git clone --depth=1 https://github.com/jerrykuku/luci-app-vssr
 
 # Add luci-app-bypass
-# git clone --depth=1 https://github.com/garypang13/luci-app-bypass
-# git clone --depth=1 https://github.com/garypang13/smartdns-le
+git clone --depth=1 https://github.com/garypang13/luci-app-bypass
 
 # Add luci-app-eqos
 svn co https://github.com/swxk521/packages/trunk/luci-app-eqos
@@ -52,7 +51,7 @@ git clone --depth=1 https://github.com/KyleRicardo/MentoHUST-OpenWrt-ipk
 git clone --depth=1 https://github.com/ysc3839/luci-proto-minieap
 
 # Add ServerChan
-git clone --depth=1 https://github.com/tty228/luci-app-serverchan
+# git clone --depth=1 https://github.com/tty228/luci-app-serverchan
 
 # Add OpenClash
 git clone --depth=1 -b master https://github.com/vernesong/OpenClash
@@ -67,12 +66,18 @@ git clone --depth=1 https://github.com/rufengsuixing/luci-app-onliner
 
 # Add luci-app-smartinfo
 svn co https://github.com/KFERMercer/OpenWrt/trunk/package/kferm/luci-app-smartinfo
+<<<<<<< HEAD
 svn co https://github.com/xiaoqingfengATGH/feeds-xiaoqingfeng/trunk/luci-app-homeredirect
 svn co https://github.com/xiaoqingfengATGH/feeds-xiaoqingfeng/trunk/homeredirect
 svn co https://github.com/xiaoqingfengATGH/feeds-xiaoqingfeng/trunk/luci-app-aliddns
 svn co https://github.com/kenzok8/small-package/trunk/luci-app-mosdns
 # Add luci-app-koolproxyR
 svn co https://github.com/MCydia/openwrt-package/branches/openwrt-18.06/luci-app-koolproxyR
+=======
+
+# Add luci-app-dnsfilter
+# svn co https://github.com/MCydia/openwrt-package/branches/openwrt-18.06/luci-app-koolproxyR
+>>>>>>> 7911ee2f30d0013aca65ea7c884aa5880e26bba1
 git clone --depth=1 https://github.com/kiddin9/luci-app-dnsfilter
 # Add luci-app-dockerman
 # rm -rf ../lean/luci-app-docker
