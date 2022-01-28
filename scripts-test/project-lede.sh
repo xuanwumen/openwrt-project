@@ -67,7 +67,10 @@ git clone --depth=1 https://github.com/rufengsuixing/luci-app-onliner
 
 # Add luci-app-smartinfo
 svn co https://github.com/KFERMercer/OpenWrt/trunk/package/kferm/luci-app-smartinfo
-
+svn co https://github.com/xiaoqingfengATGH/feeds-xiaoqingfeng/trunk/luci-app-homeredirect
+svn co https://github.com/xiaoqingfengATGH/feeds-xiaoqingfeng/trunk/homeredirect
+svn co https://github.com/xiaoqingfengATGH/feeds-xiaoqingfeng/trunk/luci-app-aliddns
+svn co https://github.com/kenzok8/small-package/trunk/luci-app-mosdns
 # Add luci-app-koolproxyR
 svn co https://github.com/MCydia/openwrt-package/branches/openwrt-18.06/luci-app-koolproxyR
 git clone --depth=1 https://github.com/kiddin9/luci-app-dnsfilter
