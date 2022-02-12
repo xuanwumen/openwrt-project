@@ -18,8 +18,8 @@ cp -r temp/packages/net/adguardhome packages/net/adguardhome
 # cp -r temp/packages/lang/node-yarn packages/lang/node-yarn
 # cp -r temp/packages/devel/packr packages/devel/packr
 
-# Add luci-app-syncthing
-cp -r temp/luci/applications/luci-app-syncthing luci/applications/luci-app-syncthing
+# Add luci-app-eqos
+cp -r temp/luci/applications/luci-app-eqos luci/applications/luci-app-eqos
 
 # Add luci-app-ipsec-vpnserver-manyusers
 cp -r temp/luci/applications/luci-app-ipsec-vpnserver-manyusers luci/applications/luci-app-ipsec-vpnserver-manyusers
