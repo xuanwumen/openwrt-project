@@ -40,9 +40,6 @@ git clone --depth=1 https://github.com/jerrykuku/luci-app-vssr
 # Add luci-app-bypass
 git clone --depth=1 https://github.com/garypang13/luci-app-bypass
 
-# Add luci-app-eqos
-svn co https://github.com/swxk521/packages/trunk/luci-app-eqos
-
 # Add mentohust & luci-app-mentohust
 git clone --depth=1 https://github.com/BoringCat/luci-app-mentohust
 git clone --depth=1 https://github.com/KyleRicardo/MentoHUST-OpenWrt-ipk
