@@ -18,6 +18,12 @@ popd
 # Add luci-app-ssr-plus
 pushd package/lean
 git clone --depth=1 https://github.com/fw876/helloworld
+
+# add luci-app-verysync
+rm -rf luci-app-verysync
+rm -rf verysync
+svn co https://github.com/WYC-2020/lede/trunk/package/lean/luci-app-verysync
+svn co https://github.com/WYC-2020/lede/trunk/package/lean/verysync
 popd
 
 # Clone community packages to package/community
