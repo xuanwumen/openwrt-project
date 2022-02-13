@@ -40,7 +40,7 @@ jobs:
           lsblk
 
       - name: Checkout
-        uses: actions/checkout@dev
+        uses: actions/checkout@main
 
       - name: Initialization Environment
         id: init
