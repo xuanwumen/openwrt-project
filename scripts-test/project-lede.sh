@@ -20,11 +20,11 @@ pushd package/lean
 git clone --depth=1 https://github.com/fw876/helloworld
 
 # add luci-app-verysync
-rm -rf luci-app-verysync
-rm -rf verysync
-svn co https://github.com/WYC-2020/lede/trunk/package/lean/luci-app-verysync
-svn co https://github.com/WYC-2020/lede/trunk/package/lean/verysync
-popd
+# rm -rf luci-app-verysync
+# rm -rf verysync
+# svn co https://github.com/WYC-2020/lede/trunk/package/lean/luci-app-verysync
+# svn co https://github.com/WYC-2020/lede/trunk/package/lean/verysync
+# popd
 
 # Clone community packages to package/community
 mkdir package/community
@@ -143,10 +143,10 @@ svn co https://github.com/Lienol/openwrt-packages/trunk/net/https-dns-proxy
 popd
 
 # Use snapshots' syncthing package
-pushd feeds/packages/utils
-rm -rf syncthing
-svn co https://github.com/openwrt/packages/trunk/utils/syncthing
-popd
+# pushd feeds/packages/utils
+# rm -rf syncthing
+# svn co https://github.com/openwrt/packages/trunk/utils/syncthing
+# popd
 
 # Fix mt76 wireless driver
 pushd package/kernel/mt76
