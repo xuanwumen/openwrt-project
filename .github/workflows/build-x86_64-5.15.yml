@@ -83,7 +83,7 @@ jobs:
           git clone --depth=1 https://github.com/coolsnowwolf/packages customfeeds/packages
           git clone --depth=1 https://github.com/coolsnowwolf/luci customfeeds/luci
           chmod +x ../scripts-test/*.sh
-          ../scripts-test/hook-feeds.sh
+          ../scripts-test/hook-feeds-5.15.sh
 
       - name: Install Feeds
         id: install
@@ -202,7 +202,7 @@ jobs:
           sed -i "s/platform/$PLATFORM/g" distfeeds.conf
           cd $OPENWRTROOT
           mkdir -p files/etc/opkg
-          cp ../data-test/opkg/distfeeds.conf files/etc/opkg/distfeeds.conf
+          cp ../data-test/opkg/distfeeds-5.15.conf files/etc/opkg/distfeeds.conf
           mkdir -p files/www/test
           cp -r bin/targets files/www/test
           mkdir -p files/etc/uci-defaults/
