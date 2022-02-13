@@ -93,7 +93,7 @@ git clone --depth=1 https://github.com/kiddin9/luci-app-dnsfilter
 #git clone --depth=1 https://github.com/openwrt-develop/luci-theme-atmaterial
 # Add subconverter
 # git clone --depth=1 https://github.com/tindy2013/openwrt-subconverter
-
+git clone --depth=1 https://github.com/thinktip/luci-theme-neobird
 # Add luci-udptools
 # svn co https://github.com/zcy85611/Openwrt-Package/trunk/luci-udptools
 # svn co https://github.com/zcy85611/Openwrt-Package/trunk/udp2raw
