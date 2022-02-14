@@ -118,6 +118,7 @@ jobs:
           cat config-test/extra-wireless-support.config >> $OPENWRTROOT/.config
           cd $OPENWRTROOT
           wget -q https://raw.githubusercontent.com/WYC-2020/lede/master/package/kernel/linux/modules/netdevices.mk -O package/kernel/linux/modules/netdevices.mk
+          wget -q https://raw.githubusercontent.com/WYC-2020/lede/master/package/kernel/linux/modules/usb.mk -O package/kernel/linux/modules/usb.mk
           make defconfig
           echo -e "$(nproc) threads compile"
           make tools/install -j$(nproc) BUILD_LOG=1 || make tools/install -j1 V=s
