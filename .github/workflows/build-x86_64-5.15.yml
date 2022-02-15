@@ -207,7 +207,7 @@ jobs:
           mkdir -p files/www/test
           cp -r bin/targets files/www/test
           mkdir -p files/etc/uci-defaults/
-          cp ../scripts-test/init-settings-5.15.sh files/etc/uci-defaults/99-init-settings
+          cp ../scripts-test/init-settings.sh files/etc/uci-defaults/99-init-settings
           make package/install || make package/install -j1 V=s
           make target/install || make target/install -j1 V=s
           make checksum
