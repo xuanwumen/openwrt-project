@@ -6,8 +6,8 @@
 # Blog: https://mlapp.cn
 #=================================================
 
-# Set default theme to luci-theme-argon
-uci set luci.main.mediaurlbase='/luci-static/argon'
+# Set default theme to luci-theme-atmaterial
+uci set luci.main.mediaurlbase='/luci-static/atmaterial'
 
 # Check file system during boot
 uci set fstab.@global[0].check_fs=1
