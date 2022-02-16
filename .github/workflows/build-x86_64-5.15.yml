@@ -102,7 +102,7 @@ jobs:
         run: |
           cd $OPENWRTROOT
           rm -rf dl
-          cp -r ~/cache/lean/dl .
+          cp -r ~/cache/lean/5.15 ./dl
           echo "CONFIG_ALL=y" >> .config
           make defconfig
           make download -j16 IGNORE_ERRORS=1
