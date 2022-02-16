@@ -19,12 +19,6 @@ popd
 pushd package/lean
 git clone --depth=1 https://github.com/fw876/helloworld
 popd
-# add luci-app-verysync
-# rm -rf luci-app-verysync
-# rm -rf verysync
-# svn co https://github.com/WYC-2020/lede/trunk/package/lean/luci-app-verysync
-# svn co https://github.com/WYC-2020/lede/trunk/package/lean/verysync
-# popd
 
 # Clone community packages to package/community
 mkdir package/community
@@ -73,49 +67,23 @@ svn co https://github.com/xiaoqingfengATGH/feeds-xiaoqingfeng/trunk/luci-app-hom
 svn co https://github.com/xiaoqingfengATGH/feeds-xiaoqingfeng/trunk/homeredirect
 svn co https://github.com/xiaoqingfengATGH/feeds-xiaoqingfeng/trunk/luci-app-aliddns
 svn co https://github.com/kenzok8/small-package/trunk/luci-app-mosdns
-# Add luci-app-koolproxyR
-svn co https://github.com/MCydia/openwrt-package/branches/openwrt-18.06/luci-app-koolproxyR
 
 # Add luci-app-dnsfilter
 git clone --depth=1 https://github.com/kiddin9/luci-app-dnsfilter
-# Add luci-app-dockerman
-# rm -rf ../lean/luci-app-docker
-# git clone --depth=1 https://github.com/lisaac/luci-app-dockerman
-# git clone --depth=1 https://github.com/lisaac/luci-lib-docker
 
-# Add themes
-#git clone --depth=1 -b 18.06 https://github.com/jerrykuku/luci-theme-argon
-#git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config
-#rm -rf ../lean/luci-theme-argon
-#git clone --depth=1 https://github.com/rosywrt/luci-theme-rosy
-#git clone --depth=1 https://github.com/xiaoqingfengATGH/luci-theme-infinityfreedom
-#git clone --depth=1 https://github.com/Leo-Jo-My/luci-theme-opentomcat
-#git clone --depth=1 https://github.com/openwrt-develop/luci-theme-atmaterial
 # Add subconverter
 # git clone --depth=1 https://github.com/tindy2013/openwrt-subconverter
 git clone --depth=1 https://github.com/thinktip/luci-theme-neobird
-# Add luci-udptools
-# svn co https://github.com/zcy85611/Openwrt-Package/trunk/luci-udptools
-# svn co https://github.com/zcy85611/Openwrt-Package/trunk/udp2raw
-# svn co https://github.com/zcy85611/Openwrt-Package/trunk/udpspeeder
+
 # Add luci-app-ttnode
 git clone --depth=1 https://github.com/jerrykuku/luci-app-ttnode
 
 # Add OpenAppFilter
 git clone --depth=1 https://github.com/destan19/OpenAppFilter
 
-# Add luci-app-oled (R2S Only)
-# git clone --depth=1 https://github.com/NateLol/luci-app-oled
-
-#add istore
+# add istore
 svn co https://github.com/linkease/istore/trunk/luci/luci-app-store
 svn co https://github.com/linkease/istore-ui/trunk/app-store-ui
-# Add extra wireless drivers
-# svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/package/kernel/rtl8812au-ac
-# svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/package/kernel/rtl8821cu
-# svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/package/kernel/rtl8188eu
-# svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/package/kernel/rtl8192du
-# svn co https://github.com/immortalwrt/immortalwrt/branches/openwrt-18.06-k5.4/package/kernel/rtl88x2bu
 
 # Add apk (Apk Packages Manager)
 # svn co https://github.com/openwrt/packages/trunk/utils/apk
@@ -129,28 +97,6 @@ popd
 pushd package/network/services
 svn co https://github.com/linkease/nas-packages/trunk/network/services/ddnsto
 svn co https://github.com/linkease/nas-packages/trunk/network/services/linkease
-popd
-# fix dockerd
-# pushd feeds/packages/utils
-# rm -rf dockerd
-# svn co https://github.com/immortalwrt/packages/trunk/utils/dockerd
-# popd
-
-# Use Lienol's https-dns-proxy package
-pushd feeds/packages/net
-rm -rf https-dns-proxy
-svn co https://github.com/Lienol/openwrt-packages/trunk/net/https-dns-proxy
-popd
-
-# Use snapshots' syncthing package
-# pushd feeds/packages/utils
-# rm -rf syncthing
-# svn co https://github.com/openwrt/packages/trunk/utils/syncthing
-# popd
-
-# Fix mt76 wireless driver
-pushd package/kernel/mt76
-sed -i '/mt7662u_rom_patch.bin/a\\techo mt76-usb disable_usb_sg=1 > $\(1\)\/etc\/modules.d\/mt76-usb' Makefile
 popd
 
 # Change default shell to zsh
