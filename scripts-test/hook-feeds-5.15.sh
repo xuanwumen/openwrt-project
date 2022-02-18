@@ -28,6 +28,9 @@ cp -r temp/packages/net/adguardhome packages/net/adguardhome
 # cp -r temp/packages/lang/node-yarn packages/lang/node-yarn
 # cp -r temp/packages/devel/packr packages/devel/packr
 
+# Add luci-app-eqos
+cp -r temp/luci/applications/luci-app-eqos luci/applications/luci-app-eqos
+
 # Add luci-app-syncthing
 cp -r temp/luci/applications/luci-app-syncthing luci/applications/luci-app-syncthing
 
@@ -35,6 +38,8 @@ cp -r temp/luci/applications/luci-app-syncthing luci/applications/luci-app-synct
 cp -r temp/luci/applications/luci-app-ipsec-vpnserver-manyusers luci/applications/luci-app-ipsec-vpnserver-manyusers
 
 # Add  themes
+rm -rf luci/themes/luci-theme-argon
+git clone  --depth=1 https://github.com/kiddin9/luci-theme-edge -b 18.06 luci/themes/luci-theme-edge
 cp -r temp/luci/themes/luci-theme-argonv3 luci/themes/luci-theme-argonv3
 cp -r temp/luci/applications/luci-app-argon-config luci/applications/luci-app-argon-config
 cp -r temp/luci/themes/luci-theme-atmaterial luci/themes/luci-theme-atmaterial
