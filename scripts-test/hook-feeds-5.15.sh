@@ -7,6 +7,16 @@
 
 # Svn checkout packages from immortalwrt's repository
 pushd customfeeds
+# add baidupcs-web verysync
+rm -rf packages/net/baidupcs-web
+rm -rf packages/net/verysync
+rm -rf luci/applications/luci-app-baidupcs-web
+rm -rf luci/applications/luci-app-verysync
+svn co https://github.com/xuanwumen/packages/trunk/baidupcs-web packages/net/baidupcs-web
+svn co https://github.com/xuanwumen/packages/trunk/luci-app-baidupcs-web luci/applications/luci-app-baidupcs-web
+svn co https://github.com/xuanwumen/packages/trunk/luci-app-verysync luci/applications/luci-app-verysync
+svn co https://github.com/xuanwumen/packages/trunk/verysync packages/net/verysync
+
 mkdir temp
 git clone --depth=1 https://github.com/immortalwrt/packages -b openwrt-18.06 temp/packages
 git clone --depth=1 https://github.com/immortalwrt/luci -b openwrt-18.06-k5.4 temp/luci
