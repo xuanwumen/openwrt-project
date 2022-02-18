@@ -56,7 +56,7 @@ cp -r temp/packages/net/gowebdav packages/net/gowebdav
 
 # Add netdata
 rm -rf packages/admin/netdata
-rm -rf ../package/lean/luci-app-netdata
+rm -rf luci/applications/luci-app-netdata
 cp -r temp/luci/applications/luci-app-netdata luci/applications/luci-app-netdata
 cp -r temp/packages/admin/netdata packages/admin/netdata
 
