@@ -71,6 +71,9 @@ cp -r temp/packages/libs/msgpack-c packages/libs/msgpack-c
 # Add gotop
 cp -r temp/packages/admin/gotop packages/admin/gotop
 
+# Add luci-app-xunlei
+cp -r temp/luci/applications/luci-app-xunlei luci/applications/luci-app-xunlei
+
 # Add minieap
 cp -r temp/packages/net/minieap packages/net/minieap
 rm -rf temp
