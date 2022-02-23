@@ -66,6 +66,7 @@ cp -r temp/luci/applications/luci-app-xunlei luci/applications/luci-app-xunlei
 
 # Add minieap
 cp -r temp/packages/net/minieap packages/net/minieap
+cp -r temp/luci/protocols/luci-proto-minieap luci/protocols/luci-proto-minieap
 rm -rf temp
 popd
 
