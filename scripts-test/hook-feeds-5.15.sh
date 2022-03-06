@@ -64,6 +64,9 @@ cp -r temp/packages/admin/gotop packages/admin/gotop
 # Add luci-app-xunlei
 cp -r temp/luci/applications/luci-app-xunlei luci/applications/luci-app-xunlei
 
+# Add luci-lib-ipkg
+cp -r temp/luci/libs/luci-lib-ipkg luci/libs/luci-lib-ipkg
+
 # Add minieap
 cp -r temp/packages/net/minieap packages/net/minieap
 cp -r temp/luci/protocols/luci-proto-minieap luci/protocols/luci-proto-minieap
