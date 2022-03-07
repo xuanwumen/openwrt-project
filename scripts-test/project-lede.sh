@@ -34,8 +34,6 @@ rm -rf ../lean/luci-app-kodexplorer
 rm -rf openwrt-package/luci-app-https-dns-proxy
 rm -rf openwrt-package/luci-app-syncthing
 rm -rf openwrt-package/luci-app-ipsec-server
-# Add luci-app-passwall
-git clone --depth=1 https://github.com/NxQAQVQ/luci-app-passwall
 
 # Add luci-app-vssr <M>
 git clone --depth=1 https://github.com/jerrykuku/lua-maxminddb.git
