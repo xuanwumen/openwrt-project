@@ -39,6 +39,7 @@ rm -rf openwrt-package/luci-app-ipsec-server
 git clone --depth=1 https://github.com/jerrykuku/lua-maxminddb.git
 git clone --depth=1 https://github.com/jerrykuku/luci-app-vssr
 
+git clone --depth=1 https://github.com/xuanwumen/vip
 # Add luci-app-bypass
 git clone --depth=1 https://github.com/garypang13/luci-app-bypass
 
