@@ -71,30 +71,6 @@ cp -r temp/luci/libs/luci-lib-ipkg luci/libs/luci-lib-ipkg
 cp -r temp/packages/net/minieap packages/net/minieap
 cp -r temp/luci/protocols/luci-proto-minieap luci/protocols/luci-proto-minieap
 
-# Add passwall
-cp -r temp/luci/applications/luci-app-passwall luci/applications/luci-app-passwall
-cp -r temp/packages/net/brook packages/net/brook
-cp -r temp/packages/net/chinadns-ng packages/net/chinadns-ng
-# cp -r temp/packages/net/dns2socks packages/net/dns2socks
-cp -r temp/packages/net/hysteria packages/net/hysteria
-cp -r temp/packages/net/ipt2socks packages/net/ipt2socks
-# cp -r temp/packages/net/microsocks packages/net/microsocks
-cp -r temp/packages/net/naiveproxy packages/net/naiveproxy
-# cp -r temp/packages/net/pdnsd-alt packages/net/pdnsd-alt
-cp -r temp/packages/net/shadowsocks-rust packages/net/shadowsocks-rust
-# cp -r temp/packages/net/shadowsocksr-libev packages/net/shadowsocksr-libev
-cp -r temp/packages/net/simple-obfs packages/net/simple-obfs
-cp -r temp/packages/net/ssocks packages/net/ssocks
-# cp -r temp/packages/net/tcping packages/net/tcping
-cp -r temp/packages/net/trojan-go packages/net/trojan-go
-cp -r temp/packages/net/trojan-plus packages/net/trojan-plus
-cp -r temp/packages/net/trojan packages/net/trojan
-cp -r temp/packages/net/v2ray-core packages/net/v2ray-core
-cp -r temp/packages/net/v2ray-geodata packages/net/v2ray-geodata
-cp -r temp/packages/net/v2ray-plugin packages/net/v2ray-plugin
-cp -r temp/packages/net/xray-core packages/net/xray-core
-cp -r temp/packages/net/xray-plugin packages/net/xray-plugin
-
 rm -rf temp
 popd
 
