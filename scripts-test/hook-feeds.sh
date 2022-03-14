@@ -7,16 +7,6 @@
 
 # Svn checkout packages from immortalwrt's repository
 pushd customfeeds
-# add baidupcs-web verysync
-rm -rf packages/net/baidupcs-web
-rm -rf packages/net/verysync
-rm -rf luci/applications/luci-app-baidupcs-web
-rm -rf luci/applications/luci-app-verysync
-svn co https://github.com/xuanwumen/packages/trunk/baidupcs-web packages/net/baidupcs-web
-svn co https://github.com/xuanwumen/packages/trunk/luci-app-baidupcs-web luci/applications/luci-app-baidupcs-web
-svn co https://github.com/xuanwumen/packages/trunk/luci-app-verysync luci/applications/luci-app-verysync
-svn co https://github.com/xuanwumen/packages/trunk/verysync packages/net/verysync
-
 mkdir temp
 git clone --depth=1 https://github.com/immortalwrt/packages -b openwrt-18.06 temp/packages
 git clone --depth=1 https://github.com/immortalwrt/luci -b openwrt-18.06-k5.4 temp/luci
@@ -71,9 +61,6 @@ cp -r temp/packages/libs/msgpack-c packages/libs/msgpack-c
 # Add gotop
 cp -r temp/packages/admin/gotop packages/admin/gotop
 
-# Add luci-app-xunlei
-cp -r temp/luci/applications/luci-app-xunlei luci/applications/luci-app-xunlei
-
 # Add minieap
 cp -r temp/packages/net/minieap packages/net/minieap
 rm -rf temp
@@ -92,5 +79,5 @@ sed -i '/src-git luci/d' feeds.conf.default
 echo "src-link luci $luci_feed" >> feeds.conf.default
 
 # Update feeds
-# sed -i 's/PATCHVER:=5.4/PATCHVER:=5.10/g' target/linux/rockchip/Makefile
+sed -i 's/PATCHVER:=5.15/PATCHVER:=5.10/g' target/linux/x86/Makefile
 ./scripts/feeds update -a
