@@ -333,8 +333,8 @@ jobs:
           HOST: "${{ secrets.REMOTE_USER }}@${{ secrets.PACIFICRACK_IP }}"
           SOURCE_TARGETS: "openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/"
           SOURCE_PACKAGES: "openwrt/bin/packages/${{ env.PLATFORM }}/"
-          DEST_TARGETS: "${{ env.WEBROOT }}/test/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/"
-          DEST_PACKAGES: "${{ env.WEBROOT }}/test/packages/${{ env.PLATFORM }}/"
+          DEST_TARGETS: "${{ env.WEBROOT }}/vip/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/"
+          DEST_PACKAGES: "${{ env.WEBROOT }}/vip/packages/${{ env.PLATFORM }}/"
           REMOTE_PRIVATEKEY: "${{secrets.PACIFICRACK_PRIVATEKEY}}"
         if: env.REMOTE_PRIVATEKEY != null
         run: |
@@ -343,7 +343,7 @@ jobs:
           echo "${{secrets.PACIFICRACK_PRIVATEKEY}}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh -q -t -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $HOST \
-          bash -c "'mkdir -p $WEBROOT/test/targets/$TARGET/$SUBTARGET \
-          $WEBROOT/test/packages/$PLATFORM'"
+          bash -c "'mkdir -p $WEBROOT/vip/targets/$TARGET/$SUBTARGET \
+          $WEBROOT/vip/packages/$PLATFORM'"
           rsync -chavP --delete -e 'ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no' $SOURCE_TARGETS $HOST:$DEST_TARGETS
           rsync -chavP --delete -e 'ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no' $SOURCE_PACKAGES $HOST:$DEST_PACKAGES
