@@ -25,7 +25,7 @@ cp -r temp/luci/applications/luci-app-eqos luci/applications/luci-app-eqos
 cp -r temp/luci/applications/luci-app-ipsec-vpnserver-manyusers luci/applications/luci-app-ipsec-vpnserver-manyusers
 
 # Add  themes
-rm -rf ../package/lean/luci-theme-argon
+rm -rf luci/themes/luci-theme-argon
 cp -r temp/luci/themes/luci-theme-argonv3 luci/themes/luci-theme-argonv3
 cp -r temp/luci/themes/luci-theme-argon luci/themes/luci-theme-argon
 cp -r temp/luci/themes/luci-theme-argonv2 luci/themes/luci-theme-argonv2
@@ -81,7 +81,7 @@ echo "src-link luci $luci_feed" >> feeds.conf.default
 
 # Update feeds
 
-# sed -i 's/PATCHVER:=5.4/PATCHVER:=5.10/g' target/linux/x86/Makefile
+sed -i 's/PATCHVER:=5.15/PATCHVER:=5.10/g' target/linux/x86/Makefile
 
 # sed -i 's/PATCHVER:=5.4/PATCHVER:=5.10/g' target/linux/rockchip/Makefile
 ./scripts/feeds update -a
