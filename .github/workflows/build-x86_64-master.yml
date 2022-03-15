@@ -18,10 +18,10 @@ on:
 
 env:
   REPO_URL: https://github.com/immortalwrt/immortalwrt
-  REPO_BRANCH: openwrt-21.02
+  REPO_BRANCH: master
   CONFIG_FILE: config/x86/x86_64-openwrt-target.config
   DIY_SH: scripts/project-master.sh
-  WEBROOT: /www/wwwroot/opup.link
+  WEBROOT: /www/wwwroot/opup.link/vip
   RUNNER: project-x86_64
 
 jobs:
