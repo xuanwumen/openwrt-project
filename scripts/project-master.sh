@@ -13,7 +13,7 @@ pushd package/emortal/default-settings/files
 # sed -i '/immortalwrt_luci/d' zzz-default-settings
 sed -i '/V4UetPzk$CYXluq4wUazHjmCDBCqXF/d' zzz-default-settings
 sed -i '/banner/d' zzz-default-settings
-sed -i 's/auto/zh_cn/g' zzz-default-settings
+# sed -i 's/auto/zh_cn/g' zzz-default-settings
 popd
 
 # change index
