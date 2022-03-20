@@ -12,9 +12,6 @@ git clone --depth=1 https://github.com/immortalwrt/packages -b openwrt-18.06 tem
 git clone --depth=1 https://github.com/immortalwrt/luci -b openwrt-18.06-k5.4 temp/luci
 
 # Add luci-app-adguardhome
-rm -rf packages/net/adguardhome
-cp -r temp/luci/applications/luci-app-adguardhome luci/applications/luci-app-adguardhome
-cp -r temp/packages/net/adguardhome packages/net/adguardhome
 # cp -r temp/packages/lang/node-yarn packages/lang/node-yarn
 # cp -r temp/packages/devel/packr packages/devel/packr
 
