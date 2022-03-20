@@ -32,6 +32,9 @@ pushd package/community
 # Add passwall
 git clone https://github.com/xiaorouji/openwrt-passwall
 
+# Add luci-app-adguardhome
+git clone https://github.com/rufengsuixing/luci-app-adguardhome
+
 # Add Lienol's Packages
 git clone --depth=1 https://github.com/Lienol/openwrt-package
 rm -rf ../lean/luci-app-kodexplorer
