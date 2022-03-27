@@ -58,9 +58,6 @@ cp -r temp/packages/libs/msgpack-c packages/libs/msgpack-c
 # Add gotop
 cp -r temp/packages/admin/gotop packages/admin/gotop
 
-# Add luci-app-xunlei
-cp -r temp/luci/applications/luci-app-xunlei luci/applications/luci-app-xunlei
-
 # Add luci-lib-ipkg
 cp -r temp/luci/libs/luci-lib-ipkg luci/libs/luci-lib-ipkg
 
