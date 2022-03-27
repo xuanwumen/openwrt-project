@@ -26,7 +26,7 @@ popd
 
 # Clone community packages to package/community
 mkdir package/community
-git clone -b luci https://github.com/xiaorouji/openwrt-passwall package/community
+git clone  --depth=1 https://github.com/xiaorouji/openwrt-passwall -b luci package/community
 pushd package/community
 
 # Add passwall
