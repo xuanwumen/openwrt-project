@@ -6,7 +6,7 @@
 # Blog: https://p3terx.com
 #=================================================
 
-name: Build test
+name: build toolchan
 
 on:
   repository_dispatch:
@@ -17,265 +17,173 @@ on:
 #    types: started
 
 env:
-  TOOLCHAIN_TAG: coolsnowwolf-lede-master
-  TOOLCHAIN_NAME: toolchain-image-coolsnowwolf-lede-master-x86-64.img
+  SOURCE_URL: https://github.com/coolsnowwolf/lede
+  SOURCE_BRANCH: master
   CONFIG_FILE: config-test/x86/x86_64-openwrt-target.config
   DIY_SH: scripts-test/project-lede.sh
+  TOOLCHAIN_TAG: toolchain
+  CLASH_BINARY_PLATFORM: amd64
+  TOOLCHAIN_RELEASE_UPLOAD: true
   WEBROOT: /www/wwwroot/opup.link
+  TZ: Asia/Shanghai
   RUNNER: project-x86_64
 
 jobs:
-  Build:
+  Toolchain:
     runs-on: project-x86_64
 
     outputs:
-      OPENWRTROOT: ${{ steps.prepare.outputs.OPENWRTROOT }}
-      PLATFORM: ${{ steps.compile.outputs.PLATFORM }}
-      TARGET: ${{ steps.compile.outputs.TARGET }}
-      SUBTARGET: ${{ steps.compile.outputs.SUBTARGET }}
-      GENERATE_STATUS: ${{ steps.generate.outputs.GENERATE_STATUS }}
-
+      OPENWRT_ROOT_PATH: ${{ steps.clone.outputs.OPENWRT_ROOT_PATH }}
+      CURRENT_BRANCH: ${{ steps.env.outputs.CURRENT_BRANCH }}
+      SOURCE_OWNER: ${{ steps.env.outputs.SOURCE_OWNER }}
+      SOURCE_REPO: ${{ steps.env.outputs.SOURCE_REPO }}
+      DEVICE_PLATFORM: ${{ steps.env.outputs.DEVICE_PLATFORM }}
+      DEVICE_TARGET: ${{ steps.env.outputs.DEVICE_TARGET }}
+      DEVICE_SUBTARGET: ${{ steps.env.outputs.DEVICE_SUBTARGET }}
+      TOOLCHAIN_IMAGE: ${{ steps.env.outputs.TOOLCHAIN_IMAGE }}
 
     steps:
+      - name: Umount Missing Loop Devices
+        id: umount
+        run: |
+          sudo umount /dev/loop*p1 || true
+          sudo losetup -D || true
+          lsblk
       - name: Initialization Environment
-        id: init
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
           sudo -E apt-get -qq update
-          sudo -E apt-get -qq install $(curl -fsSL git.io/depends-ubuntu-1804) rdate
+          sudo -E apt-get -qq install squashfs-tools $(curl -fsSL git.io/depends-ubuntu-2004)
           sudo -E apt-get -qq autoremove --purge
           sudo -E apt-get -qq clean
-          sudo docker image prune -a -f
-      - name: Free Up More Space
-        uses: easimon/maximize-build-space@master
-        with:
-          root-reserve-mb: 256
-          swap-size-mb: 1024
-          remove-dotnet: 'true'
-          remove-android: 'true'
-          remove-haskell: 'true'
-          overprovision-lvm: 'true'
-
+          sudo ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+          mkdir -p workspace
+      
       - name: Checkout
         uses: actions/checkout@main
 
-      - name: Prepare Toolchain Image
-        id: prepare
+      - name: Clone Source Code
+        id: clone
         run: |
           df -hT $PWD
-          cp -r ~/cache/lean/toolchain-image-coolsnowwolf-lede-master-x86-64.img ./toolchain-image.img
-          mkdir openwrt-ro openwrt workdir overlay
-          sudo mount -o loop toolchain-image.img openwrt-ro
-          sudo mount -t overlay overlay -o lowerdir=openwrt-ro,upperdir=overlay,workdir=workdir openwrt
-          cd openwrt
-          echo "OPENWRTROOT=$PWD" >> $GITHUB_ENV
-          echo "::set-output name=OPENWRTROOT::$(echo $PWD)"
-          git pull
+          git clone $SOURCE_URL -b $SOURCE_BRANCH workspace/openwrt
+          cd workspace/openwrt
+          echo "OPENWRT_ROOT_PATH=$PWD" >> $GITHUB_ENV
+          echo "::set-output name=OPENWRT_ROOT_PATH::$(echo $PWD)"
 
-
-      - name: Update Feeds
-        id: update
+      - name: Generate Toolchain Config
         run: |
-          cd $OPENWRTROOT
+          [ -e $CONFIG_FILE ] && mv $CONFIG_FILE $OPENWRT_ROOT_PATH/.config
+          echo -e "\nCONFIG_ALL=y" >> $OPENWRT_ROOT_PATH/.config
+          echo -e "\nCONFIG_ALL_NONSHARED=y" >> $OPENWRT_ROOT_PATH/.config
+          cd $OPENWRT_ROOT_PATH
+          make defconfig > /dev/null 2>&1
+
+      - name: Generate Variables
+        id: env
+        run: |
+          export CURRENT_BRANCH="$(git symbolic-ref --short HEAD)"
+          echo "CURRENT_BRANCH=$CURRENT_BRANCH" >> $GITHUB_ENV
+          echo "::set-output name=CURRENT_BRANCH::$(echo $CURRENT_BRANCH)"
+          cd $OPENWRT_ROOT_PATH
+          export SOURCE_OWNER="$(echo $SOURCE_URL | awk -F '/' '{print $(NF-1)}')"
+          echo "SOURCE_OWNER=$SOURCE_OWNER" >> $GITHUB_ENV
+          echo "::set-output name=SOURCE_OWNER::$(echo $SOURCE_OWNER)"
+          export SOURCE_REPO="$(echo $SOURCE_URL | awk -F '/' '{print $(NF)}')"
+          echo "SOURCE_REPO=$SOURCE_REPO" >> $GITHUB_ENV
+          echo "::set-output name=SOURCE_REPO::$(echo $SOURCE_REPO)"
+          export DEVICE_TARGET=$(cat .config | grep CONFIG_TARGET_BOARD | awk -F '"' '{print $2}')
+          echo "DEVICE_TARGET=$DEVICE_TARGET" >> $GITHUB_ENV
+          echo "::set-output name=DEVICE_TARGET::$(echo $DEVICE_TARGET)"
+          export DEVICE_SUBTARGET=$(cat .config | grep CONFIG_TARGET_SUBTARGET | awk -F '"' '{print $2}')
+          echo "DEVICE_SUBTARGET=$DEVICE_SUBTARGET" >> $GITHUB_ENV
+          echo "::set-output name=DEVICE_SUBTARGET::$(echo $DEVICE_SUBTARGET)"
+          export DEVICE_PLATFORM=$(cat .config | grep CONFIG_TARGET_ARCH_PACKAGES | awk -F '"' '{print $2}')
+          echo "DEVICE_PLATFORM=$DEVICE_PLATFORM" >> $GITHUB_ENV
+          echo "::set-output name=DEVICE_PLATFORM::$(echo $DEVICE_PLATFORM)"
+          export TOOLCHAIN_IMAGE="toolchain-$SOURCE_OWNER-$SOURCE_REPO-$SOURCE_BRANCH-$DEVICE_TARGET-$DEVICE_SUBTARGET"
+          echo "TOOLCHAIN_IMAGE=$TOOLCHAIN_IMAGE" >> $GITHUB_ENV
+          echo "::set-output name=TOOLCHAIN_IMAGE::$(echo $TOOLCHAIN_IMAGE)"
+
+      - name: Compare Toolchain Hash
+        id: hash
+        run: |
+          cd $OPENWRT_ROOT_PATH
+          export CURRENT_HASH=$(git log --pretty=tformat:"%H" -n1 tools toolchain)
+          echo "CURRENT_HASH=$CURRENT_HASH" >> $GITHUB_ENV
+          echo "::set-output name=CURRENT_HASH::$(echo $CURRENT_HASH)"
+          echo "CURRENT_HASH is $CURRENT_HASH"
+          export CACHE_HASH=$(curl -fSsL https://github.com/$GITHUB_REPOSITORY/releases/download/$TOOLCHAIN_TAG/$TOOLCHAIN_IMAGE.hash)
+          echo "CACHE_HASH is $CACHE_HASH"
+          if [ -z "$CACHE_HASH" ] || [ "$CURRENT_HASH" != "$CACHE_HASH" ]; then
+            echo "::set-output name=REBUILD_TOOLCHAIN::true"
+          fi
+
+      - name: Install Feeds
+        if: steps.hash.outputs.REBUILD_TOOLCHAIN == 'true'
+        run: |
+          cd $OPENWRT_ROOT_PATH
           mkdir customfeeds
           git clone --depth=1 https://github.com/coolsnowwolf/packages customfeeds/packages
           git clone --depth=1 https://github.com/coolsnowwolf/luci customfeeds/luci
           chmod +x ../scripts-test/*.sh
-          ../scripts-test/hook-feeds.sh
-
-      - name: Install Feeds
-        id: install
-        run: |
-          cd $OPENWRTROOT
+          ../scripts-test/hook-feeds-5.15.sh
           ./scripts/feeds install -a
-
-      - name: Load Custom Configuration
-        run: |
-          [ -e files ] && mv files $OPENWRTROOT/files
-          cd $OPENWRTROOT
-          ../$DIY_SH
-
-      - name: Download All Packages
-        id: download
-        run: |
-          cd $OPENWRTROOT
-          rm -rf dl
-          cp -r ~/cache/lean/dl .
-          echo "CONFIG_ALL=y" >> .config
           make defconfig
-          make download -j16 IGNORE_ERRORS=1
-          find dl -size -1024c -exec ls -l {} \;
-          find dl -size -1024c -exec rm -f {} \;
 
       - name: Compile Tools
-        id: tools
+        if: steps.hash.outputs.REBUILD_TOOLCHAIN == 'true'
         run: |
-          rm -f $OPENWRTROOT/.config*
-          cp $CONFIG_FILE $OPENWRTROOT/.config
-          cat config-test/firmware-extra.config >> $OPENWRTROOT/.config
-          cat config-test/extra-wireless-support.config >> $OPENWRTROOT/.config
-          cd $OPENWRTROOT
-          make defconfig
-          echo -e "$(nproc) threads compile"
-          make tools/install -j$(nproc) BUILD_LOG=1 || make tools/install -j1 V=s
+          cd $OPENWRT_ROOT_PATH
+          echo -e "$(nproc) thread compile"
+          make tools/compile -j$(nproc) || make tools/compile -j1 V=s
 
       - name: Compile Toolchain
-        id: toolchain
+        if: steps.hash.outputs.REBUILD_TOOLCHAIN == 'true'
         run: |
-          cd $OPENWRTROOT
-          echo -e "$(nproc) threads compile"
-          make toolchain/compile -j$(nproc) BUILD_LOG=1 || make toolchain/compile -j1 V=s
-          echo "::set-output name=TOOLCHAIN_STATUS::success"
+          cd $OPENWRT_ROOT_PATH
+          echo -e "$(nproc) thread compile"
+          make toolchain/compile -j$(nproc) || make toolchain/compile -j1 V=s
+          rm -rf .config* dl bin
 
-      - name: Compile Firmware Packages
-        id: compile
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        timeout-minutes: 400
+      - name: Generate Toolchain Image
+        if: steps.hash.outputs.REBUILD_TOOLCHAIN == 'true'
         run: |
-          cd $OPENWRTROOT
-          echo -e "$(nproc) threads compile"
-          echo 'CONFIG_MMC_SDHCI_ACPI=y' >> target/linux/x86/64/config-5.4
-          make target/compile -j$(nproc) 'IGNORE_ERRORS=n m' BUILD_LOG=1 || make target/compile -j1 V=s IGNORE_ERRORS=1
-          make diffconfig
-          make package/compile -j$(nproc) 'IGNORE_ERRORS=n m' BUILD_LOG=1 || make package/compile -j1 V=s
-          make package/index
-          cd $OPENWRTROOT/bin/packages/*
-          PLATFORM=$(basename `pwd`)
-          echo "PLATFORM=$PLATFORM" >> $GITHUB_ENV
-          echo "::set-output name=PLATFORM::$(echo $PLATFORM)"
-          cd $OPENWRTROOT/bin/targets/*
-          TARGET=$(basename `pwd`)
-          echo "TARGET=$TARGET" >> $GITHUB_ENV
-          echo "::set-output name=TARGET::$(echo $TARGET)"
-          cd *
-          SUBTARGET=$(basename `pwd`)
-          echo "SUBTARGET=$SUBTARGET" >> $GITHUB_ENV
-          echo "::set-output name=SUBTARGET::$(echo $SUBTARGET)"
-          echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-          echo "::set-output name=FIRMWARE::$(echo $PWD)"
-          echo "::set-output name=COMPILE_STATUS::success"
-
-      - name: Generate Firmware
-        if: steps.compile.outputs.COMPILE_STATUS == 'success'
-        id: generate
-        run: |
-          cd data-test/opkg
-          sed -i "s/subtarget/$SUBTARGET/g" distfeeds.conf
-          sed -i "s/target\//$TARGET\//g" distfeeds.conf
-          sed -i "s/platform/$PLATFORM/g" distfeeds.conf
-          cd $OPENWRTROOT
-          mkdir -p files/etc/opkg
-          cp ../data-test/opkg/distfeeds.conf files/etc/opkg/distfeeds.conf
-          mkdir -p files/www/test
-          cp -r bin/targets files/www/test
-          mkdir -p files/etc/uci-defaults/
-          cp ../scripts-test/init-settings.sh files/etc/uci-defaults/99-init-settings
-          make package/install || make package/install -j1 V=s
-          make target/install || make target/install -j1 V=s
-          make checksum
-          mkdir -p $OPENWRTROOT/output/bin/targets/$TARGET
-          cp -r $FIRMWARE $OPENWRTROOT/output/bin/targets/$TARGET
-          echo "::set-output name=GENERATE_STATUS::success"
-
-
-      - name: Restore Variables
-        id: restore
-        run: |
-          echo "PLATFORM=$(echo '${{needs.Firmware.outputs.PLATFORM}}')" >> $GITHUB_ENV
-          echo "TARGET=$(echo '${{needs.Firmware.outputs.TARGET}}')" >> $GITHUB_ENV
-          echo "SUBTARGET=$(echo '${{needs.Firmware.outputs.SUBTARGET}}')" >> $GITHUB_ENV
-
-
-      - name: Compile Extra Packages
-        id: extra
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        timeout-minutes: 400
-        run: |
-          cd $OPENWRTROOT
-          rm -f .config*
-          cp ../$CONFIG_FILE ./.config
-          cat ../config-test/packages-extra.config >> $OPENWRTROOT/.config
-          make defconfig
-          make diffconfig
-          make target/clean
-          make package/libs/mbedtls/clean
-          make target/compile -j$(nproc) 'IGNORE_ERRORS=n m' BUILD_LOG=1 || make target/compile -j1 V=s IGNORE_ERRORS=1
-          make package/compile -j$(nproc) BUILD_LOG=1 IGNORE_ERRORS="y m n" || make package/compile -j1 V=s IGNORE_ERRORS="y m n"
-          make package/index
-          mkdir -p $OPENWRTROOT/output/bin/packages
-          cp -r bin/packages/$PLATFORM $OPENWRTROOT/output/bin/packages
-          echo "::set-output name=COMPILE_STATUS::success"
-
-      - name: Compress Bin Folder
-        if: steps.extra.outputs.COMPILE_STATUS == 'success'
-        id: compress
-        run: |
-          cd $OPENWRTROOT/output
-          zip -q -s 500m -r bin-archive.zip bin
-          rm -rf bin
-
-      - name: Upload Bin Archive
-        id: upload
+          cd workspace
+          mksquashfs openwrt $TOOLCHAIN_IMAGE -force-gid 1001 -force-uid 1001 -comp zstd
+          mkdir -p $GITHUB_WORKSPACE/output
+          split -d -b 1900M $TOOLCHAIN_IMAGE $GITHUB_WORKSPACE/output/$TOOLCHAIN_IMAGE.img.
+          rm $TOOLCHAIN_IMAGE
+          cd $OPENWRT_ROOT_PATH
+          echo $CURRENT_HASH > $GITHUB_WORKSPACE/output/toolchain-$SOURCE_OWNER-$SOURCE_REPO-$SOURCE_BRANCH-$DEVICE_TARGET-$DEVICE_SUBTARGET.hash
+          ls -lh $GITHUB_WORKSPACE/output
+          
+      - name: Upload Toolchain Image To Artifact
+        if: env.TOOLCHAIN_RELEASE_UPLOAD != 'true' && steps.hash.outputs.REBUILD_TOOLCHAIN == 'true'
         uses: actions/upload-artifact@main
         with:
-          name: Bin-Archive
-          path: openwrt/output
+          name: ${{ env.TOOLCHAIN_IMAGE }}
+          path: output
 
-
-
-  Upload:
-    needs: [Build]
-    runs-on: ubuntu-18.04
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@main
-
-      - name: Restore Variables
-        id: restore
-        run: |
-          echo "PLATFORM=$(echo '${{needs.Firmware.outputs.PLATFORM}}')" >> $GITHUB_ENV
-          echo "TARGET=$(echo '${{needs.Firmware.outputs.TARGET}}')" >> $GITHUB_ENV
-          echo "SUBTARGET=$(echo '${{needs.Firmware.outputs.SUBTARGET}}')" >> $GITHUB_ENV
-
-      - name: Download Bin Archive
-        id: download
-        uses: actions/download-artifact@v2
+      - name: Delete Old Toolchain Assets From Release
+        if: env.TOOLCHAIN_RELEASE_UPLOAD == 'true' && steps.hash.outputs.REBUILD_TOOLCHAIN == 'true'
+        uses: mknejp/delete-release-assets@v1
         with:
-          name: Bin-Archive
-          path: openwrt
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ env.TOOLCHAIN_TAG }}
+          assets: "toolchain-${{ env.TOOLCHAIN_IMAGE }}.*"
+          fail-if-no-assets: false
+          fail-if-no-release: false
 
-      - name: Decompress Bin Folder
-        id: decompress
-        run: |
-          sudo ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
-          cd openwrt
-          echo "OPENWRTROOT=$PWD" >> $GITHUB_ENV
-          zip -q -s 0 bin-archive.zip --out bin.zip
-          unzip bin.zip
-          cd bin/targets/$TARGET/$SUBTARGET
-          echo "FIRMWARE=$PWD" >> $GITHUB_ENV
-
-      - name: Deploy Files To PacificRack Node
-        id: pacificrack
-        env:
-          HOST: "${{ secrets.REMOTE_USER }}@${{ secrets.PACIFICRACK_IP }}"
-          SOURCE_TARGETS: "openwrt/bin/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/"
-          SOURCE_PACKAGES: "openwrt/bin/packages/${{ env.PLATFORM }}/"
-          DEST_TARGETS: "${{ env.WEBROOT }}/test/targets/${{ env.TARGET }}/${{ env.SUBTARGET }}/"
-          DEST_PACKAGES: "${{ env.WEBROOT }}/test/packages/${{ env.PLATFORM }}/"
-          REMOTE_PRIVATEKEY: "${{secrets.PACIFICRACK_PRIVATEKEY}}"
-        if: env.REMOTE_PRIVATEKEY != null
-        run: |
-          mkdir -p ~/.ssh/
-          install -m 600 /dev/null ~/.ssh/id_rsa
-          echo "${{secrets.PACIFICRACK_PRIVATEKEY}}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh -q -t -i ~/.ssh/id_rsa -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no $HOST \
-          bash -c "'mkdir -p $WEBROOT/test/targets/$TARGET/$SUBTARGET \
-          $WEBROOT/test/packages/$PLATFORM'"
-          rsync -chavP --delete -e 'ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no' $SOURCE_TARGETS $HOST:$DEST_TARGETS
-          rsync -chavP --delete -e 'ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no' $SOURCE_PACKAGES $HOST:$DEST_PACKAGES
+      - name: Upload Toolchain Image To Release
+        if: env.TOOLCHAIN_RELEASE_UPLOAD == 'true' && steps.hash.outputs.REBUILD_TOOLCHAIN == 'true'
+        uses: ncipollo/release-action@v1.8.0
+        with:
+          name: toolchain-image
+          allowUpdates: true
+          replacesArtifacts: true
+          tag: ${{ env.TOOLCHAIN_TAG }}
+          commit: ${{ env.CURRENT_BRANCH }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: output/*
