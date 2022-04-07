@@ -6,7 +6,7 @@
 # Blog: https://p3terx.com
 #=================================================
 
-name: build-x86_64-lean-toolchan
+name: build x86_64 lean-toolchan
 
 on:
   repository_dispatch:
