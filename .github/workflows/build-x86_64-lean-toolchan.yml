@@ -26,11 +26,10 @@ env:
   TOOLCHAIN_RELEASE_UPLOAD: true
   WEBROOT: /www/wwwroot/opup.link
   TZ: Asia/Shanghai
-  RUNNER: project-x86_64
 
 jobs:
   Toolchain:
-    runs-on: project-x86_64
+    runs-on: ubuntu-20.04
 
     outputs:
       OPENWRT_ROOT_PATH: ${{ steps.clone.outputs.OPENWRT_ROOT_PATH }}
