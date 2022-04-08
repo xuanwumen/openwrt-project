@@ -234,10 +234,13 @@ jobs:
             cat $TOOLCHAIN_IMAGE.img.0$i >> $TOOLCHAIN_IMAGE.img.00 && rm $TOOLCHAIN_IMAGE.img.0$i || break
           done
           mv $TOOLCHAIN_IMAGE.img.00 $TOOLCHAIN_IMAGE.img
+          sudo umount $GITHUB_WORKSPACE/workspace/openwrt
+          sudo umount $GITHUB_WORKSPACE/workspace/openwrt-ro
           mkdir openwrt-ro openwrt workdir overlay
           sudo mount -o loop $TOOLCHAIN_IMAGE.img openwrt-ro
           sudo mount -t overlay overlay -o lowerdir=openwrt-ro,upperdir=overlay,workdir=workdir openwrt
-          cd $OPENWRT_ROOT_PATH
+          chmod -R suling:suling openwrt
+          cd $GITHUB_WORKSPACE/workspace/openwrt
           git pull
 
       - name: Prepare Toolchain Image Form Releases
@@ -249,9 +252,12 @@ jobs:
           do
             curl -fsL https://github.com/$GITHUB_REPOSITORY/releases/download/$TOOLCHAIN_TAG/$TOOLCHAIN_IMAGE.img.0$i >> $TOOLCHAIN_IMAGE.img || break
           done
+          sudo umount $GITHUB_WORKSPACE/workspace/openwrt
+          sudo umount $GITHUB_WORKSPACE/workspace/openwrt-ro
           mkdir openwrt-ro openwrt workdir overlay
           sudo mount -o loop $TOOLCHAIN_IMAGE.img openwrt-ro
           sudo mount -t overlay overlay -o lowerdir=openwrt-ro,upperdir=overlay,workdir=workdir openwrt
+          chmod -R suling:suling openwrt
           cd $GITHUB_WORKSPACE/workspace/openwrt
           rm -rf customfeeds
           make clean
