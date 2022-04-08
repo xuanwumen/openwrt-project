@@ -237,7 +237,7 @@ jobs:
           mkdir openwrt-ro openwrt workdir overlay
           sudo mount -o loop $TOOLCHAIN_IMAGE.img openwrt-ro
           sudo mount -t overlay overlay -o lowerdir=openwrt-ro,upperdir=overlay,workdir=workdir openwrt
-          chmod -R suling:suling openwrt
+          sudo chown -R suling:suling openwrt
           cd $GITHUB_WORKSPACE/workspace/openwrt
           git pull
 
