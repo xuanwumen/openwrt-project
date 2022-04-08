@@ -320,15 +320,15 @@ jobs:
             cd $OPENWRT_ROOT_PATH/files/etc/opkg/keys
             wget -q https://opup.link/key-build.pub
             mv key-build.pub $(usign -F -p key-build.pub)
-          cd $OPENWRT_ROOT_PATH
-          mkdir -p files/etc/uci-defaults/
-          cp $GITHUB_WORKSPACE/scripts-test/init-settings.sh files/etc/uci-defaults/99-init-settings
-          mkdir -p files/www/test
-          cp -r bin/targets files/www/test
-          make package/install -j$(nproc) || make package/install -j1 V=s
-          make target/install -j$(nproc) || make target/install -j1 V=s
-          make json_overview_image_info
-          make checksum          
+            cd $OPENWRT_ROOT_PATH
+            mkdir -p files/etc/uci-defaults/
+            cp $GITHUB_WORKSPACE/scripts-test/init-settings.sh files/etc/uci-defaults/99-init-settings
+            mkdir -p files/www/test
+            cp -r bin/targets files/www/test
+            make package/install -j$(nproc) || make package/install -j1 V=s
+            make target/install -j$(nproc) || make target/install -j1 V=s
+            make json_overview_image_info
+            make checksum          
 
           
           
