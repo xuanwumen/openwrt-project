@@ -3,7 +3,7 @@ name: Delete Workflow & Archive
 on:
   workflow_dispatch:
 
-  schedule:
+#  schedule:
     - cron: '0 0 * * *'
 
 jobs:
